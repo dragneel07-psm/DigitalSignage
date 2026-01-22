@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}डिजिटल सूचना पाटी व्यवस्थापन{% endblock %}
+
+{% block header_title %}डिजिटल सूचना पाटी{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <h2 class="text-lg font-medium text-gray-700">जडान भएका उपकरणहरू</h2>
+    {% if user.role == 'admin' or user.is_superuser %}
+    <a href="#" class="bg-nepal-blue text-white px-4 py-2 rounded shadow hover:bg-blue-800">
+        + नयाँ उपकरण जोड्नुहोस्
+    </a>
+    {% endif %}
+</div>
+
+<div class="bg-white shadow overflow-hidden rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    नाम</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    स्थान</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    IP ठेगाना</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    स्थिति</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    प्लेयर लिंक</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for device in devices %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">{{ device.name }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{{ device.location_description }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{{ device.ip_address }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        {% if device.is_active %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ device.is_active|yesno:"सक्रिय,निष्क्रिय" }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="{% url 'player_display' device.id %}" target="_blank"
+                        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">📺</span> हेर्नुहोस् (View)
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                    कुनै उपकरण फेला परेन।
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

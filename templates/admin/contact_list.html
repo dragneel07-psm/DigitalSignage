@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}सम्पर्क व्यवस्थापन{% endblock %}
+
+{% block header_title %}सम्पर्क व्यवस्थापन{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <div class="flex space-x-2">
+        <!-- Optional filters can go here -->
+    </div>
+    <a href="{% url 'contact_create' %}" class="bg-nepal-red text-white px-4 py-2 rounded shadow hover:bg-red-700">
+        + नयाँ सम्पर्क
+    </a>
+</div>
+
+<div class="bg-white shadow overflow-hidden rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    नाम</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    फोन नं.</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    पद</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    कार्यालय</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    कार्य</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for contact in contacts %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">{{ contact.full_name }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{{ contact.phone_number }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{{ contact.position|default:"-" }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{{ contact.office.name|default:"-" }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    {% if user.role == 'admin' or user.is_superuser %}
+                    <a href="{% url 'contact_edit' contact.pk %}"
+                        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">✏️</span> सम्पादन
+                    </a>
+                    <a href="{% url 'contact_delete' contact.pk %}"
+                        class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">🗑️</span> हटाउनुहोस्
+                    </a>
+                    {% else %}
+                    <div class="flex flex-col space-y-1">
+                        <a href="{% url 'action_request_create' model_name='Contact' object_id=contact.pk request_type='edit' %}"
+                            class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200 text-xs text-center">
+                            सम्पादन अनुरोध
+                        </a>
+                        <a href="{% url 'action_request_create' model_name='Contact' object_id=contact.pk request_type='delete' %}"
+                            class="px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-xs text-center">
+                            हटाउन अनुरोध
+                        </a>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                    कुनै सम्पर्क फेला परेन।
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}टिकर सन्देश व्यवस्थापन{% endblock %}
+
+{% block header_title %}टिकर सन्देश व्यवस्थापन (Ticker Management){% endblock %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <div class="text-sm text-gray-500">
+        डिजिटल स्क्रिनको तल देखिने सूचनाहरू
+    </div>
+    <a href="{% url 'ticker_create' %}" class="bg-nepal-red text-white px-4 py-2 rounded shadow hover:bg-red-700">
+        + नयाँ सन्देश
+    </a>
+</div>
+
+<div class="bg-white shadow overflow-hidden rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    सन्देश (Content)</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    क्रम (Order)</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    स्थिति (Status)</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    कार्य (Actions)</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for ticker in tickers %}
+            <tr>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-gray-900">{{ ticker.content }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ ticker.order }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        {% if ticker.is_active %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                        {% if ticker.is_active %}सक्रिय{% else %}निष्क्रिय{% endif %}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <a href="{% url 'ticker_edit' ticker.pk %}"
+                        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">✏️</span> सम्पादन
+                    </a>
+                    <a href="{% url 'ticker_delete' ticker.pk %}"
+                        class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">🗑️</span> हटाउनुहोस्
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                    कुनै टिकर सन्देश फेला परेन।
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

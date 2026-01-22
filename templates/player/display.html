@@ -1,0 +1,853 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ne">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>डिजिटल सूचना पाटी</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Mukta', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Responsive Font Sizes and Spacing */
+        @media (max-height: 720px) {
+
+            /* 720p and below */
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            h2 {
+                font-size: 1.1rem;
+            }
+
+            h3 {
+                font-size: 0.9rem;
+            }
+
+            h4 {
+                font-size: 0.8rem;
+            }
+
+            p {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (min-height: 721px) and (max-height: 1080px) {
+
+            /* 1080p */
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            h4 {
+                font-size: 0.9rem;
+            }
+
+            p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (min-height: 1081px) and (max-height: 1440px) {
+
+            /* 1440p */
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            h4 {
+                font-size: 1rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-height: 1441px) {
+
+            /* 4K and above */
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            h4 {
+                font-size: 1.2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Responsive Padding */
+        @media (max-height: 720px) {
+            body {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (min-height: 721px) and (max-height: 1080px) {
+            body {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (min-height: 1081px) {
+            body {
+                padding: 1rem;
+            }
+        }
+
+        .ticker {
+            animation: scroll-left 40s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Auto-adjust gap and padding */
+        @media (max-height: 720px) {
+            .gap-3 {
+                gap: 0.5rem;
+            }
+
+            .p-4 {
+                padding: 0.5rem;
+            }
+
+            .p-3 {
+                padding: 0.4rem;
+            }
+        }
+
+        @media (min-height: 1081px) {
+            .gap-3 {
+                gap: 1rem;
+            }
+
+            .p-4 {
+                padding: 1rem;
+            }
+
+            .p-3 {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen flex flex-col">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-red-700 to-red-600 text-white py-4 px-6 shadow-lg shrink-0">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1">
+                    <img src="{% static 'img/nepal-logo.svg' %}" alt="नेपाल सरकार लोगो"
+                        class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">अपिहिमाल गाउँपालिका</h1>
+                    <p class="text-sm opacity-90">डिजिटल सूचना व्यवस्थापन प्रणाली</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div id="nepali-date" class="text-xl font-bold"></div>
+                <div id="time" class="text-lg"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Grid Layout: 40-60 Horizontal, then 60-40 Vertical -->
+    <div class="flex-1 grid grid-cols-5 gap-3 p-3 overflow-hidden min-h-0 w-screen"
+        style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: stretch;">
+
+        <!-- LEFT: Main Notices (40% - spans 2 columns) -->
+        <div class="col-span-2 bg-white rounded-lg shadow-2xl p-4 flex flex-col overflow-hidden min-h-0"
+            style="align-self: stretch;">
+            <h2 class="text-2xl font-bold text-red-700 border-b-4 border-red-700 pb-2 mb-3 shrink-0">
+                📢 सूचनाहरू
+            </h2>
+            <div id="notice-display" class="flex-1 overflow-y-auto space-y-3 pr-2 auto-scroll-notice">
+                <div class="text-center text-gray-400 py-10">Loading notices...</div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Gallery and Charter stacked (60% - spans 3 columns) -->
+        <div class="col-span-3 grid grid-rows-4 gap-3 h-full overflow-hidden min-h-0"
+            style="grid-template-rows: repeat(4, minmax(0, 1fr)); display: grid; align-self: stretch;">
+
+            <!-- TOP: Gallery (60% height: row-span-3) -->
+            <div class="row-span-3 bg-white rounded-lg shadow-2xl p-0 flex flex-col overflow-hidden min-h-0 relative"
+                style="display: flex; flex-direction: column; min-height: 0; align-self: stretch;">
+
+                <div id="gallery-display"
+                    class="flex-1 min-h-0 flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 rounded overflow-hidden relative"
+                    style="display: flex; flex: 1; min-height: 0;">
+                    <div class="text-center p-4">
+                        <div class="text-5xl mb-2">📸</div>
+                        <p class="font-semibold text-gray-700">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM: Citizen Charter (25% height: row-span-1) -->
+            <div class="row-span-1 bg-white rounded-lg shadow-2xl p-2 flex flex-col overflow-hidden min-h-0"
+                style="display: flex; flex-direction: column; min-height: 0; align-self: stretch;">
+                <h3 class="text-sm font-bold text-blue-700 border-b-2 border-blue-700 pb-1 mb-1 shrink-0">
+                    📋 नागरिक वडापत्र
+                </h3>
+                <div id="charter-display" class="flex-1 text-xs min-h-0 overflow-hidden w-full"
+                    style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+                    <div class="text-center text-gray-400 py-4">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Ticker -->
+    <div class="bg-yellow-400 text-black py-2 px-4 overflow-hidden shrink-0">
+        <div class="ticker whitespace-nowrap text-lg font-semibold">
+            <span id="ticker-content">🔔 स्वागत छ! अपिहिमाल गाउँपालिकाको डिजिटल सूचना प्रणालीमा • Welcome to Digital
+                Notice Board
+                • सूचनाहरू नियमित अपडेट हुन्छन् • For any queries contact rural municipality office</span>
+        </div>
+    </div>
+
+    <script>
+        // Auto-detect screen resolution and log it
+        function detectScreenResolution() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const dpr = window.devicePixelRatio;
+            const screen = {
+                viewport: `${width}x${height}`,
+                physical: `${Math.round(width * dpr)}x${Math.round(height * dpr)}`,
+                aspect: (width / height).toFixed(2),
+                dpr: dpr,
+                resolution: ''
+            };
+
+            // Detect resolution category
+            if (height <= 720) {
+                screen.resolution = '720p (HD)';
+            } else if (height <= 1080) {
+                screen.resolution = '1080p (Full HD)';
+            } else if (height <= 1440) {
+                screen.resolution = '1440p (QHD)';
+            } else if (height <= 2160) {
+                screen.resolution = '2160p (4K)';
+            } else {
+                screen.resolution = '4K+ (Ultra HD)';
+            }
+
+            console.log('📺 Digital Signage Display Info:');
+            console.log(`   Viewport: ${screen.viewport}`);
+            console.log(`   Physical: ${screen.physical}`);
+            console.log(`   Resolution: ${screen.resolution}`);
+            console.log(`   Aspect Ratio: ${screen.aspect}:1`);
+            console.log(`   Device Pixel Ratio: ${screen.dpr}x`);
+
+            return screen;
+        }
+
+        // Detect on load and on resize
+        detectScreenResolution();
+        window.addEventListener('resize', detectScreenResolution);
+
+        // Correct API URLs
+        const NOTICES_API = '/api/v1/notices/published/';
+        const CHARTERS_API = '/api/v1/charters/';
+        const GALLERIES_API = '/api/v1/galleries/';
+
+        let notices = [];
+        let charters = [];
+        let galleries = [];
+
+        let currentCharterIndex = 0;
+        let currentGalleryIndex = 0;
+
+        let charterRotationInterval = null;
+        // let galleryRotationInterval = null; // Replaced by timeout
+
+        // --- Notices ---
+        async function fetchNotices() {
+            try {
+                const response = await fetch(NOTICES_API);
+                const data = await response.json();
+
+                // Only update and re-render if data changed significantly or just always re-render for simplicity
+                notices = data;
+                console.log('Fetched notices:', notices.length);
+                displayNotices();
+            } catch (error) {
+                console.error('Error fetching notices:', error);
+                if (notices.length === 0) {
+                    document.getElementById('notice-display').innerHTML =
+                        '<div class="text-center text-red-500 py-10">Error loading notices</div>';
+                }
+            }
+        }
+
+        function displayNotices() {
+            const container = document.getElementById('notice-display');
+            if (notices.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-400 py-10">कुनै सूचना प्रकाशित गरिएको छैन</div>';
+                return;
+            }
+
+            let html = '';
+            notices.forEach(notice => {
+                let badge = '', badgeColor = '';
+                if (notice.priority === 'emergency') {
+                    badge = '🚨 आपत्कालीन'; badgeColor = 'bg-red-600 text-white animate-pulse';
+                } else if (notice.priority === 'high') {
+                    badge = '⚠️ उच्च'; badgeColor = 'bg-orange-500 text-white';
+                } else {
+                    badge = '📌 सामान्य'; badgeColor = 'bg-blue-500 text-white';
+                }
+
+                html += `
+                    <div class="border-l-4 ${notice.priority === 'emergency' ? 'border-red-600 bg-red-50' : 'border-blue-600 bg-blue-50'} p-3 rounded-r shadow-md">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-gray-800 flex-1">${notice.title}</h3>
+                            <span class="px-2 py-1 rounded text-xs font-bold ${badgeColor} ml-2">${badge}</span>
+                        </div>
+                        <p class="text-gray-700 text-sm leading-relaxed mb-2">${notice.content}</p>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>📍 ${notice.office_name || 'अपिहिमाल गाउँपालिका'}</span>
+                            <span>📅 ${new Date(notice.published_date).toLocaleDateString('ne-NP')}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            // Start auto-scroll if content overflows
+            startNoticeAutoScroll();
+        }
+
+        let noticeScrollTimeoutId = null;
+
+        function startNoticeAutoScroll() {
+            if (noticeScrollTimeoutId) clearTimeout(noticeScrollTimeoutId);
+
+            const container = document.getElementById('notice-display');
+
+            // Wait for layout to settle
+            setTimeout(() => {
+                const scrollHeight = container.scrollHeight;
+                const clientHeight = container.clientHeight;
+
+                console.log('Notice Scroll Check:', { scrollHeight, clientHeight, diff: scrollHeight - clientHeight });
+
+                if (scrollHeight <= clientHeight + 1) {
+                    // No scroll needed
+                    console.log('No scroll needed for notices');
+                    return;
+                }
+
+                // Start scrolling
+                let scrollPos = 0;
+                const scrollSpeed = 1; // pixels per interval
+                const scrollInterval = setInterval(() => {
+                    if (!container.isConnected) {
+                        clearInterval(scrollInterval);
+                        return;
+                    }
+
+                    scrollPos += scrollSpeed;
+                    container.scrollTop = scrollPos;
+
+                    // Check if reached bottom
+                    if (container.scrollTop + clientHeight >= scrollHeight - 2) {
+                        clearInterval(scrollInterval);
+                        // Pause at bottom then scroll back to top
+                        noticeScrollTimeoutId = setTimeout(() => {
+                            container.scrollTop = 0;
+                            startNoticeAutoScroll(); // Loop the scroll
+                        }, 5000); // 5 seconds pause at bottom
+                    }
+                }, 50); // scroll every 50ms
+            }, 500); // wait 500ms for layout
+        }
+
+        // --- Charters ---
+        // --- Charters (Smart Scroll Logic) ---
+        let charterTimeoutId = null;
+
+        async function fetchCharters() {
+            try {
+                const response = await fetch(CHARTERS_API);
+                const data = await response.json();
+                console.log('Fetched charters:', data.length);
+
+                const wasEmpty = charters.length === 0;
+                charters = data;
+
+                if (wasEmpty && charters.length > 0) {
+                    startCharterCycle();
+                }
+            } catch (error) {
+                console.error('Error fetching charters:', error);
+            }
+        }
+
+        function startCharterCycle() {
+            if (charterTimeoutId) clearTimeout(charterTimeoutId);
+            if (charters.length === 0) {
+                document.getElementById('charter-display').innerHTML = '<div class="text-center text-gray-400 py-4">No services available</div>';
+                console.log('[CHARTER] No charters available');
+                return;
+            }
+
+            // Safety check
+            if (currentCharterIndex >= charters.length) currentCharterIndex = 0;
+
+            console.log(`[CHARTER] Starting cycle - showing charters ${currentCharterIndex} & ${(currentCharterIndex + 1) % charters.length}`);
+
+            const container = document.getElementById('charter-display');
+            const item1 = charters[currentCharterIndex];
+            const item2Index = (currentCharterIndex + 1) % charters.length;
+            const item2 = charters.length > 1 ? charters[item2Index] : null;
+
+            const renderItem = (charter) => `
+                <div class="fade-in bg-blue-50 bg-opacity-30 p-2 rounded border border-blue-100 w-full h-full flex flex-row min-h-0" style="display: flex; flex-direction: row; height: 100%; width: 100%; min-height: 0; gap: 0.5rem;">
+                    <!-- Left: Service Details -->
+                    <div class="flex flex-col min-h-0 flex-shrink-0" style="display: flex; flex-direction: column; min-height: 0; width: 45%; flex-shrink: 0; padding: 0.25rem; overflow: hidden;">
+                        <h4 class="font-bold text-blue-800 mb-1 shrink-0" style="flex-shrink: 0; line-height: 1.2; word-wrap: break-word; font-size: clamp(0.75rem, 3vw, 1rem);">${charter.service_name}</h4>
+                        <div class="space-y-0.5 flex flex-col min-h-0 overflow-hidden" style="display: flex; flex-direction: column; min-height: 0; overflow: hidden; font-size: clamp(0.65rem, 2.5vw, 0.875rem);">
+                            <p class="flex items-center shrink-0" style="flex-shrink: 0;"><strong class="mr-1 shrink-0">⏱️</strong> <span class="truncate">${charter.service_time}</span></p>
+                            <p class="flex items-center shrink-0" style="flex-shrink: 0;"><strong class="mr-1 shrink-0">💰</strong> <span class="truncate">${charter.service_fee}</span></p>
+                            <p class="flex items-center shrink-0" style="flex-shrink: 0;"><strong class="mr-1 shrink-0">👤</strong> <span class="truncate">${charter.responsible_officer}</span></p>
+                        </div>
+                    </div>
+                    <!-- Right: Required Documents -->
+                    <div class="flex flex-col min-h-0 flex-1 border-l border-blue-100 pl-2" style="display: flex; flex-direction: column; min-height: 0; flex: 1; border-left: 1px solid rgb(191, 219, 254); padding-left: 0.5rem;">
+                        <strong class="block mb-0.5 shrink-0 text-blue-700" style="flex-shrink: 0; font-size: clamp(0.625rem, 2vw, 0.75rem);">📄 कागजात:</strong>
+                        <div class="auto-scroll-content flex-1 min-h-0 overflow-y-auto no-scrollbar w-full" style="flex: 1; min-height: 0; overflow-y: scroll; width: 100%; display: block; height: 100%; font-size: clamp(0.625rem, 1.8vw, 0.75rem);">
+                            <p class="whitespace-pre-line text-2xs leading-relaxed pr-1 pb-2" style="font-size: 0.625rem;">${charter.required_docs}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = `
+                <div class="h-full w-full flex flex-col relative min-h-0" style="display: flex; flex-direction: column; height: 100%; width: 100%; min-height: 0;">
+                    <div class="grid grid-cols-2 gap-3 flex-1 min-h-0 w-full" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; flex: 1; width: 100%; min-height: 0; height: 100%; align-items: stretch;">
+                         <div style="display: flex; flex-direction: column; height: 100%; min-height: 0; align-self: stretch;">
+                            ${renderItem(item1)}
+                         </div>
+                         ${item2 ? `<div style="display: flex; flex-direction: column; height: 100%; min-height: 0; align-self: stretch;">
+                            ${renderItem(item2)}
+                         </div>` : ''}
+                    </div>
+                    <div class="text-center mt-1 text-xs text-gray-400 shrink-0">
+                        सेवा ${currentCharterIndex + 1} ${item2 ? '& ' + (item2Index + 1) : ''} को ${charters.length}
+                    </div>
+                </div>
+            `;
+
+            // Start Smart Scroll for all scrollable elements
+            setTimeout(() => {
+                const scrollContainers = Array.from(container.querySelectorAll('.auto-scroll-content'));
+                console.log('[CHARTER] Cycle started - Found scroll containers:', scrollContainers.length, 'Zoom:', Math.round(window.devicePixelRatio * 100) + '%');
+
+                // Reset all scroll positions to top and measure
+                scrollContainers.forEach((el, idx) => {
+                    el.scrollTop = 0;
+
+                    // Force reflow
+                    const sh = el.scrollHeight;
+                    const ch = el.clientHeight;
+                    const oh = el.offsetHeight;
+
+                    console.log(`[CHARTER] Container ${idx} BEFORE scroll:`, {
+                        scrollHeight: sh,
+                        clientHeight: ch,
+                        offsetHeight: oh,
+                        isScrollable: sh > ch + 5
+                    });
+                });
+
+                // Wait for all to finish scrolling
+                Promise.all(scrollContainers.map((el, idx) => scrollElement(el, idx)))
+                    .then(() => {
+                        // All finished, wait a bit then next
+                        console.log('[CHARTER] Cycle complete - All scrolling finished, moving to next in 3s');
+                        charterTimeoutId = setTimeout(() => {
+                            currentCharterIndex = (currentCharterIndex + 2) % charters.length;
+                            startCharterCycle();
+                        }, 3000);
+                    });
+            }, 500); // Give DOM time to render - increased to 500ms
+        }
+
+        function scrollElement(element, index) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    // Force multiple reflows to ensure accurate measurements
+                    const _ = element.offsetHeight;
+                    const __ = element.scrollHeight;
+
+                    const scrollHeight = element.scrollHeight;
+                    const clientHeight = element.clientHeight;
+                    const isScrollable = scrollHeight > clientHeight + 5;
+
+                    console.log(`[SCROLL] Element ${index} (after delay):`, {
+                        scrollHeight,
+                        clientHeight,
+                        isScrollable,
+                        diff: scrollHeight - clientHeight,
+                        offsetHeight: element.offsetHeight,
+                        zoom: Math.round(window.devicePixelRatio * 100) + '%'
+                    });
+
+                    if (!isScrollable) {
+                        // No scrolling needed - content fits in viewport
+                        console.log(`[SCROLL] Element ${index} - Content fits (${scrollHeight}px <= ${clientHeight}px)`);
+                        setTimeout(() => resolve(), 3000);
+                        return;
+                    }
+
+                    // Content needs scrolling
+                    console.log(`[SCROLL] Element ${index} - Starting scroll (${scrollHeight - clientHeight}px to scroll)`);
+                    let currentScroll = 0;
+                    const totalDistance = scrollHeight - clientHeight;
+                    const pixelsPerStep = 1;
+                    const stepDelay = 100; // Slower scroll for easier reading (100ms per pixel)
+                    let steps = 0;
+
+                    const scrollInterval = setInterval(() => {
+                        if (!element.isConnected) {
+                            clearInterval(scrollInterval);
+                            console.log(`[SCROLL] Element ${index} - Element disconnected after ${steps} steps`);
+                            resolve();
+                            return;
+                        }
+
+                        currentScroll += pixelsPerStep;
+                        element.scrollTop = currentScroll;
+                        steps++;
+
+                        // Check if at bottom
+                        if (currentScroll >= totalDistance - 2) {
+                            clearInterval(scrollInterval);
+                            console.log(`[SCROLL] Element ${index} - Reached bottom after ${steps} steps, pausing 2s`);
+                            setTimeout(() => resolve(), 2000);
+                        }
+                    }, stepDelay);
+
+                }, 1000); // Wait 1 second for layout to fully settle
+            });
+        }
+
+        // Removed old rotation functions
+        function stopCharterRotation() {
+            if (charterTimeoutId) clearTimeout(charterTimeoutId);
+        }
+
+        // --- Galleries ---
+        async function fetchGalleries() {
+            try {
+                const response = await fetch(GALLERIES_API);
+                const data = await response.json();
+                console.log('Fetched galleries:', data.length);
+
+                const wasEmpty = galleries.length === 0;
+                galleries = data;
+
+                if (wasEmpty && galleries.length > 0) {
+                    displayGallery();
+                    startGalleryRotation();
+                } else if (galleries.length === 0) {
+                    stopGalleryRotation();
+                    displayGallery();
+                }
+            } catch (error) {
+                console.error('Error fetching galleries:', error);
+            }
+        }
+
+        let galleryTimeoutId = null;
+
+        function startGalleryRotation() {
+            if (galleryTimeoutId) clearTimeout(galleryTimeoutId);
+
+            if (galleries.length === 0) return;
+
+            const currentItem = galleries[currentGalleryIndex];
+            const duration = (currentItem.duration || 10) * 1000; // Default 10s
+
+            console.log(`Displaying gallery item ${currentGalleryIndex + 1} for ${duration / 1000}s`);
+            displayGallery();
+
+            galleryTimeoutId = setTimeout(() => {
+                currentGalleryIndex = (currentGalleryIndex + 1) % galleries.length;
+                startGalleryRotation(); // Recursive call
+            }, duration);
+        }
+
+        function stopGalleryRotation() {
+            if (galleryTimeoutId) {
+                clearTimeout(galleryTimeoutId);
+                galleryTimeoutId = null;
+            }
+        }
+
+        function displayGallery() {
+            const container = document.getElementById('gallery-display');
+            if (galleries.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-400">No images</div>';
+                return;
+            }
+
+            if (currentGalleryIndex >= galleries.length) currentGalleryIndex = 0;
+            const gallery = galleries[currentGalleryIndex];
+
+            let contentHtml = '';
+
+            // Check for YouTube URL first
+            if (gallery.youtube_url) {
+                console.log('[GALLERY] YouTube URL detected:', gallery.youtube_url);
+
+                // Extract video ID from YouTube URL - more comprehensive regex
+                let videoId = null;
+
+                // Try different patterns
+                const patterns = [
+                    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+                    /^([a-zA-Z0-9_-]{11})$/  // Direct video ID
+                ];
+
+                for (let pattern of patterns) {
+                    const match = gallery.youtube_url.match(pattern);
+                    if (match) {
+                        videoId = match[1];
+                        break;
+                    }
+                }
+
+                console.log('[GALLERY] Extracted video ID:', videoId);
+
+                if (videoId) {
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&enablejsapi=1&origin=${window.location.protocol}//${window.location.host}`;
+                    console.log('[GALLERY] Embed URL:', embedUrl);
+
+                    contentHtml = `
+                        <div class="w-full h-full relative animate-fade-in group bg-black flex items-center justify-center">
+                            <iframe 
+                                id="youtube-iframe-${videoId}"
+                                width="100%" 
+                                height="100%" 
+                                src="${embedUrl}"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen
+                                loading="lazy"
+                                style="border: none; display: block;">
+                            </iframe>
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white flex justify-between items-end" style="z-index: 10;">
+                                <h4 class="font-bold text-sm line-clamp-1 text-left flex-1 text-shadow">${gallery.title}</h4>
+                                <div class="text-xs text-gray-300 ml-2 font-mono">📺 ${currentGalleryIndex + 1}/${galleries.length}</div>
+                            </div>
+                            <div class="absolute top-0 left-0 right-0 text-xs text-red-300 p-2 hidden" id="error-${videoId}" style="background: rgba(0,0,0,0.7); z-index: 20;">
+                                ⚠️ Video unavailable - embedding may be disabled by creator
+                            </div>
+                        </div>
+                    `;
+
+                    // Detect iframe errors
+                    setTimeout(() => {
+                        const iframe = document.getElementById(`youtube-iframe-${videoId}`);
+                        if (iframe) {
+                            iframe.addEventListener('error', () => {
+                                console.error('[GALLERY] YouTube iframe error detected');
+                                document.getElementById(`error-${videoId}`).style.display = 'block';
+                            });
+                        }
+                    }, 100);
+                } else {
+                    console.error('[GALLERY] Failed to extract video ID from URL:', gallery.youtube_url);
+                    contentHtml = `<div class="text-center text-red-500 p-4 bg-red-50"><strong>YouTube Error</strong><br/>Could not extract video ID from: <code>${gallery.youtube_url}</code><br/>Please check the URL format</div>`;
+                }
+            }
+            // Check for local file (image or video)
+            else if (gallery.cover_image) {
+                const isVideo = gallery.cover_image.match(/\.(mp4|webm|ogg)$/i);
+                let mediaHtml = '';
+                if (isVideo) {
+                    mediaHtml = `<video src="${gallery.cover_image}" class="w-full h-full object-cover" autoplay muted loop playsinline></video>`;
+                } else {
+                    mediaHtml = `<img src="${gallery.cover_image}" alt="${gallery.title}" class="w-full h-full object-contain">`;
+                }
+
+                contentHtml = `
+                    <div class="w-full h-full relative animate-fade-in group">
+                        <div class="w-full h-full bg-black">
+                            ${mediaHtml}
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white flex justify-between items-end">
+                            <h4 class="font-bold text-sm line-clamp-1 text-left flex-1 text-shadow">${gallery.title}</h4>
+                           <div class="text-xs text-gray-300 ml-2 font-mono">${currentGalleryIndex + 1}/${galleries.length}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                contentHtml = `
+                    <div class="text-center fade-in p-4">
+                        <div class="text-6xl mb-3">📸</div>
+                        <p class="font-bold text-lg text-gray-800">${gallery.title}</p>
+                        <p class="text-sm text-gray-600 mt-1">${gallery.description || ''}</p>
+                        <div class="text-xs text-gray-400 mt-2">${currentGalleryIndex + 1} / ${galleries.length}</div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = contentHtml;
+        }
+
+
+        // Old startAutoScroll removed
+
+
+        // Update time and date from Nepali API
+        async function updateDateTime() {
+            try {
+                const response = await fetch('/api/v1/nepali-date/');
+                const data = await response.json();
+                document.getElementById('nepali-date').innerText = data.date;
+                document.getElementById('time').innerText = data.time;
+            } catch (error) {
+                console.error('Error fetching Nepali date:', error);
+                const now = new Date();
+                document.getElementById('time').innerText = now.toLocaleTimeString('ne-NP', { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('nepali-date').innerText = now.toLocaleDateString('ne-NP', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+            }
+        }
+
+        // Initialize
+        console.log('Initializing digital notice board v2.0 (Real-time)...');
+
+        // Initial Fetch
+        fetchNotices();
+        fetchCharters();
+        fetchGalleries();
+        updateDateTime();
+
+        // Intervals for Clock
+        setInterval(updateDateTime, 1000);
+
+        // Intervals for Data Refresh (Every 1 minute = 60000ms)
+        const REFRESH_INTERVAL = 60000;
+        setInterval(fetchNotices, REFRESH_INTERVAL * 2); // Notices every 2 mins
+        setInterval(fetchCharters, REFRESH_INTERVAL);     // Charters every 1 min
+        setInterval(fetchGalleries, REFRESH_INTERVAL);    // Galleries every 1 min
+        setInterval(fetchTicker, REFRESH_INTERVAL);       // Ticker every 1 min
+
+        // --- Ticker ---
+        const TICKER_API = '/api/v1/ticker/';
+        async function fetchTicker() {
+            try {
+                const response = await fetch(TICKER_API);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    const tickerText = data.map(item => item.content).join(' • ');
+                    document.getElementById('ticker-content').innerText = '🔔 ' + tickerText;
+                } else {
+                    document.getElementById('ticker-content').innerText = '🔔 स्वागत छ! अपिहिमाल गाउँपालिकाको डिजिटल सूचना प्रणालीमा';
+                }
+            } catch (error) {
+                console.error('Error fetching ticker:', error);
+            }
+        }
+
+        // Initial Fetch
+        fetchTicker();
+    </script>
+</body>
+
+</html>

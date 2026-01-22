@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ne">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>लग इन - डिजिटल सूचना पाटी</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mukta', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-nepal-blue">अपिहिमाल गाउँपालिका</h1>
+            <p class="text-gray-500">डिजिटल सूचना व्यवस्थापन प्रणाली</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="bg-red-50 text-red-700 p-3 rounded mb-4 text-sm">
+                प्रयोगकर्ता नाम वा पासवर्ड मिलेन। कृपया पुन: प्रयास गर्नुहोस्।
+            </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <label for="id_username" class="block text-gray-700 font-medium mb-2">प्रयोगकर्ता नाम (Username)</label>
+                <input type="text" name="username" id="id_username"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-nepal-blue focus:ring focus:ring-blue-200 p-3 border"
+                    required>
+            </div>
+
+            <div class="mb-6">
+                <label for="id_password" class="block text-gray-700 font-medium mb-2">पासवर्ड (Password)</label>
+                <input type="password" name="password" id="id_password"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-nepal-blue focus:ring focus:ring-blue-200 p-3 border"
+                    required>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-nepal-blue text-white font-bold py-3 rounded hover:bg-blue-800 transition duration-200">
+                लग इन गर्नुहोस्
+            </button>
+        </form>
+
+        <div class="mt-6 text-center text-sm text-gray-400">
+            &copy; 2081 Local Government Automation
+        </div>
+    </div>
+
+</body>
+
+</html>

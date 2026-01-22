@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}सेटिङहरू (Settings){% endblock %}
+
+{% block header_title %}प्रणाली सेटिङहरू (System Settings){% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- General Settings -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 max-w-3xl mx-auto transition-colors duration-200">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white border-b dark:border-gray-700 pb-2">सामान्य
+            सेटिङहरू (General Settings)</h2>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            {% if form.errors %}
+            <div class="bg-red-50 text-red-700 p-4 rounded mb-4">
+                <p class="font-bold">कृपया त्रुटिहरू सच्याउनुहोस्:</p>
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Theme Mode -->
+                <div>
+                    <label for="{{ form.theme_mode.id_for_label }}"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {{ form.theme_mode.label }}
+                    </label>
+                    <div class="dark:text-gray-800">
+                        {{ form.theme_mode }}
+                    </div>
+                    {% if form.theme_mode.help_text %}
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.theme_mode.help_text }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Font Size -->
+                <div>
+                    <label for="{{ form.font_size.id_for_label }}"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        {{ form.font_size.label }}
+                    </label>
+                    <div class="dark:text-gray-800">
+                        {{ form.font_size }}
+                    </div>
+                    {% if form.font_size.help_text %}
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.font_size.help_text }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="pt-5 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
+                <button type="submit"
+                    class="px-6 py-2 bg-nepal-blue text-white rounded shadow hover:bg-blue-800 transition-colors">
+                    परिवर्तनहरू सुरक्षित गर्नुहोस्
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Other Settings Cards -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 max-w-3xl mx-auto transition-colors duration-200">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white border-b dark:border-gray-700 pb-2">प्रणाली
+            व्यवस्थापन (System Management)</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <a href="{% url 'my_password_change' %}"
+                class="block p-4 border dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <h3 class="font-bold text-lg text-nepal-blue dark:text-blue-400 mb-1">🔑 पासवर्ड परिवर्तन</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">आफ्नो लगइन पासवर्ड सुरक्षित रूपमा परिवर्तन
+                    गर्नुहोस्।</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

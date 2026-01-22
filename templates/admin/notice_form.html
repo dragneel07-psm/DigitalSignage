@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if form.instance.pk %}सूचना सम्पादन (Edit Notice){% else %}नयाँ सूचना (Create Notice){% endif %}
+{% endblock %}
+
+{% block header_title %}
+{% if form.instance.pk %}सूचना सम्पादन गर्नुहोस्{% else %}नयाँ सूचना सिर्जना गर्नुहोस्{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white shadow rounded-lg">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-800">
+                {% if form.instance.pk %}सूचना विवरण अद्यावधिक गर्नुहोस्{% else %}नयाँ सूचनाको विवरण भर्नुहोस्{% endif %}
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">कृपया आवश्यक सबै विवरणहरू ध्यानपूर्वक भर्नुहोस्।</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="p-6 space-y-6">
+            {% csrf_token %}
+
+            {% if form.errors %}
+            <div class="bg-red-50 text-red-700 p-4 rounded mb-4">
+                <p class="font-bold">कृपया त्रुटिहरू सच्याउनुहोस्:</p>
+                {{ form.non_field_errors }}
+                <ul class="list-disc list-inside text-sm">
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Title -->
+            <div>
+                <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">सूचनाको
+                    शीर्षक</label>
+                <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}"
+                    value="{{ form.title.value|default:'' }}"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"
+                    required>
+            </div>
+
+            <!-- Content -->
+            <div>
+                <label for="{{ form.content.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-1">सूचनाको
+                    विवरण</label>
+                <textarea name="{{ form.content.name }}" id="{{ form.content.id_for_label }}" rows="6"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">{{ form.content.value|default:'' }}</textarea>
+            </div>
+
+            <div>
+                <label for="{{ form.priority.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-1">प्राथमिकता</label>
+                <select name="{{ form.priority.name }}" id="{{ form.priority.id_for_label }}"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border bg-white">
+                    {% for value, label in form.fields.priority.choices %}
+                    <option value="{{ value }}" {% if form.priority.value == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Office Selection Removed -->
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">प्रकाशन हुने पाटीहरू</label>
+                <div class="bg-gray-50 p-3 rounded-md border border-gray-200 max-h-48 overflow-y-auto space-y-2">
+                    {% for checkbox in form.target_devices %}
+                    <div class="flex items-center">
+                        {{ checkbox.tag }}
+                        <label for="{{ checkbox.id_for_label }}" class="ml-2 text-sm text-gray-700 cursor-pointer">
+                            {{ checkbox.choice_label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Select all devices where this notice should be displayed.</p>
+            </div>
+
+            <!-- Fields visible on Create and Edit -->
+            <div>
+                <label for="{{ form.status.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-1">स्थिति</label>
+                <select name="{{ form.status.name }}" id="{{ form.status.id_for_label }}"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border bg-white">
+                    {% for value, label in form.fields.status.choices %}
+                    <option value="{{ value }}" {% if form.status.value == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="{{ form.published_date.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-1">प्रकाशन मिति (Optional)</label>
+                <input type="datetime-local" name="{{ form.published_date.name }}"
+                    id="{{ form.published_date.id_for_label }}"
+                    value="{{ form.published_date.value|date:'Y-m-d\TH:i' }}"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+            </div>
+
+            <div>
+                <label for="{{ form.expiry_date.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-1">समाप्ति मिति (Optional)</label>
+                <input type="date" name="{{ form.expiry_date.name }}" id="{{ form.expiry_date.id_for_label }}"
+                    value="{{ form.expiry_date.value|date:'Y-m-d' }}"
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+            </div>
+
+            <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                <a href="{% url 'notice_list' %}"
+                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    रद्ध गर्नुहोस्
+                </a>
+                <button type="submit"
+                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-nepal-blue hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    {% if form.instance.pk %}अद्यावधिक गर्नुहोस्{% else %}सिर्जना गर्नुहोस्{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Nepali Date Picker Dependencies -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<link href="{% static 'css/nepali.datepicker.min.css' %}" rel="stylesheet" type="text/css" />
+<script src="{% static 'js/nepali.datepicker.min.js' %}" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        console.log("Nepali Date Picker Script Started");
+
+        // Helper to safely get element
+        function getElement(idTemplate, idFallback) {
+            let $el = $('#' + idTemplate);
+            if ($el.length === 0) {
+                console.warn(`Element with ID ${idTemplate} not found. Trying fallback ${idFallback}`);
+                $el = $('#' + idFallback);
+            }
+            return $el;
+        }
+
+        // --- 1. Published Date Setup ---
+        // Django ID is usually 'id_' + field name
+        const $adPublishedInput = getElement('{{ form.published_date.id_for_label }}', 'id_published_date');
+
+        if ($adPublishedInput.length > 0) {
+            console.log("Found Published Date Input");
+
+            // Hide original AD input
+            $adPublishedInput.hide(); // use jQuery hide() to be sure
+            $adPublishedInput.addClass('hidden');
+
+            // Create BS Input UI
+            const $bsPublishedWrapper = $('<div>', { class: 'grid grid-cols-2 gap-4' });
+            const $bsPublishedDate = $('<input>', {
+                type: 'text',
+                id: 'nepali-datepicker-published',
+                class: 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border bg-white',
+                placeholder: 'प्रकाशित मिति (BS)',
+                readonly: true
+            });
+            const $bsPublishedTime = $('<input>', {
+                type: 'time',
+                id: 'time-picker-published',
+                class: 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border bg-white'
+            });
+
+            // Insert wrapper
+            $adPublishedInput.before($bsPublishedWrapper);
+            $bsPublishedWrapper.append($bsPublishedDate).append($bsPublishedTime);
+
+            // Logic common for both fields
+            initializeNepaliDatePicker($bsPublishedDate, $adPublishedInput, $bsPublishedTime);
+        } else {
+            console.error("Published Date Input NOT FOUND");
+        }
+
+
+        // --- 2. Expiry Date Setup ---
+        const $adExpiryInput = getElement('{{ form.expiry_date.id_for_label }}', 'id_expiry_date');
+
+        if ($adExpiryInput.length > 0) {
+            console.log("Found Expiry Date Input");
+            $adExpiryInput.hide();
+            $adExpiryInput.addClass('hidden');
+
+            const $bsExpiryDate = $('<input>', {
+                type: 'text',
+                id: 'nepali-datepicker-expiry',
+                class: 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border bg-white',
+                placeholder: 'समाप्ति मिति (BS)',
+                readonly: true
+            });
+
+            $adExpiryInput.before($bsExpiryDate);
+            initializeNepaliDatePicker($bsExpiryDate, $adExpiryInput);
+        } else {
+            console.error("Expiry Date Input NOT FOUND");
+        }
+
+
+        // --- Shared Logic ---
+
+        function initializeNepaliDatePicker($bsInput, $adInput, $timeInput = null) {
+            // Check library
+            if (!$.isFunction($bsInput.nepaliDatePicker)) {
+                console.error("nepaliDatePicker function not found. Library might not be loaded.");
+                $bsInput.val("Library Error");
+                return;
+            }
+
+            // Load initial AD value -> BS
+            const currentAd = $adInput.val(); // YYYY-MM-DD or YYYY-MM-DDTHH:MM
+            console.log("Initial AD Value:", currentAd);
+            if (currentAd) {
+                const parts = currentAd.split('T');
+                const adDate = parts[0];
+                const adTime = parts[1] ? parts[1].substring(0, 5) : '';
+
+                if (adDate) {
+                    try {
+                        const bsDate = AD2BS(adDate);
+                        $bsInput.val(bsDate);
+                    } catch (e) { console.error("AD2BS Error:", e); }
+                }
+                if ($timeInput && adTime) {
+                    $timeInput.val(adTime);
+                }
+            }
+
+            // Init Picker
+            $bsInput.nepaliDatePicker({
+                ndpYear: true,
+                ndpMonth: true,
+                ndpYearCount: 10,
+                onChange: function () {
+                    syncToAd($bsInput, $adInput, $timeInput);
+                }
+            });
+
+            if ($timeInput) {
+                $timeInput.on('change', function () {
+                    syncToAd($bsInput, $adInput, $timeInput);
+                });
+            }
+        }
+
+        function syncToAd($bsInput, $adInput, $timeInput) {
+            const bsDate = $bsInput.val();
+            const time = $timeInput ? ($timeInput.val() || '00:00') : null;
+
+            if (bsDate) {
+                try {
+                    const adDate = BS2AD(bsDate);
+                    if (adDate) {
+                        const combined = time !== null ? `${adDate}T${time}` : adDate;
+                        $adInput.val(combined);
+                        console.log("Synced to AD:", combined);
+                    }
+                } catch (e) { console.error("BS2AD Error:", e); }
+            } else {
+                $adInput.val('');
+            }
+        }
+
+    });
+</script>
+{% endblock %}

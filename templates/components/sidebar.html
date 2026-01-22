@@ -1,0 +1,74 @@
+{% load static %}
+<aside class="w-64 bg-nepal-blue text-white shadow-lg flex flex-col">
+    <div class="p-6 text-center border-b border-blue-800">
+        <div class="mb-3 flex justify-center">
+            <div class="bg-white p-2 rounded-full w-20 h-20 flex items-center justify-center">
+                <img src="{% static 'img/nepal-logo.svg' %}" alt="नेपाल सरकार लोगो"
+                    class="w-full h-full object-contain">
+            </div>
+        </div>
+        <h1 class="text-xl font-bold">अपिहिमाल गाउँपालिका</h1>
+        <p class="text-xs text-blue-200">डिजिटल सूचना ब्यवस्थापन प्रणाली</p>
+    </div>
+    <nav class="mt-6 flex-1 px-2 space-y-1">
+        <a href="{% url 'dashboard' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if request.resolver_match.url_name == 'dashboard' %}bg-blue-900{% endif %}">
+            <span class="mr-3">🏠</span> ड्यासबोर्ड
+        </a>
+        <a href="{% url 'notice_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'notice' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">📢</span> सूचना व्यवस्थापन
+        </a>
+        <a href="{% url 'device_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800">
+            <span class="mr-3">📺</span> डिजिटल सूचना पाटी
+        </a>
+        <a href="{% url 'gallery_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'gallery' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">🖼️</span> फोटो ग्यालरी
+        </a>
+        <a href="{% url 'charter_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'charter' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">📜</span> नागरिक वडापत्र
+        </a>
+        <a href="{% url 'ticker_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'ticker' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">🔔</span> टिकर सन्देश
+        </a>
+        <div class="border-t border-blue-800 my-2"></div>
+        <a href="{% url 'contact_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'contacts' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">📞</span> सम्पर्कहरू
+        </a>
+        {% if user.role == 'admin' or user.is_superuser %}
+        <a href="{% url 'action_request_list' %}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {% if 'requests' in request.path %}bg-blue-800 text-white{% else %}text-blue-100 hover:bg-blue-700{% endif %}">
+            <span class="mr-3 text-lg">📝</span>
+            सच्याउने अनुरोधहरू
+            {% if pending_requests_count %}
+            <span class="ml-auto inline-block py-0.5 px-2 text-xs font-medium rounded-full bg-red-500 text-white">
+                {{ pending_requests_count }}
+            </span>
+            {% endif %}
+        </a>
+        <a href="{% url 'user_list' %}"
+            class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {% if 'users' in request.path %}bg-blue-800 text-white{% else %}text-blue-100 hover:bg-blue-700{% endif %}">
+            <span class="mr-3 text-lg">👥</span>
+            प्रयोगकर्ताहरू
+        </a>
+        {% endif %}
+        <a href="{% url 'settings' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'settings' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">⚙️</span> सेटिङ
+        </a>
+        <div class="mt-auto">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit"
+                    class="w-full text-left group flex items-center px-4 py-2 text-base font-medium hover:bg-blue-800 text-red-300">
+                    <span class="mr-3">🚪</span> लग आउट
+                </button>
+            </form>
+        </div>
+    </nav>
+</aside>

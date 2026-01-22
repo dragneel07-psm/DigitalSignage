@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}ड्यासबोर्ड{% endblock %}
+
+{% block header_title %}ड्यासबोर्ड{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Card 1 -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-nepal-red">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-red-100 text-nepal-red">
+                <span class="text-2xl">📢</span>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">आज प्रकाशित सूचनाहरू</p>
+                <p class="text-2xl font-semibold text-gray-800">{{ today_notices_count }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                <span class="text-2xl">📺</span>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">सक्रिय सूचना पाटी</p>
+                <p class="text-2xl font-semibold text-gray-800">{{ active_devices_count }}</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Card 4 -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                <span class="text-2xl">⏳</span>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">स्वीकृति बाँकी सूचना</p>
+                <p class="text-2xl font-semibold text-gray-800">{{ pending_approval_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 border-b pb-2">प्रणाली स्थिति</h3>
+        <p class="text-green-600 font-semibold">✔ सर्भर स्थिति: सामान्य (Normal)</p>
+        <p class="text-gray-600 mt-2">पछिल्लो ब्याकअप: २००२-०९-०२</p>
+    </div>
+    <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 border-b pb-2">छिटो कार्य (Quick Actions)</h3>
+        <div class="flex space-x-4">
+            <a href="{% url 'notice_create' %}"
+                class="px-4 py-2 bg-nepal-blue text-white rounded hover:bg-blue-700">नयाँ सूचना सिर्जना</a>
+            <a href="{% url 'system_report' %}"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">रिर्पोट हेर्नुहोस्</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Data Injection/Scripts Removed -->
+{% endblock %}

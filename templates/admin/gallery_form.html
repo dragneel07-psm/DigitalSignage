@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}नयाँ फोटो{% endblock %}
+
+{% block header_title %}नयाँ फोटो अपलोड{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6 max-w-2xl mx-auto">
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="bg-red-50 text-red-700 p-4 rounded mb-4">
+            <p class="font-bold">कृपया त्रुटिहरू सच्याउनुहोस्:</p>
+            {{ form.errors }}
+        </div>
+        {% endif %}
+
+        <div>
+            <label for="id_title" class="block text-sm font-medium text-gray-700 mb-1">शीर्षक</label>
+            <input type="text" name="title" id="id_title" value="{{ form.title.value|default:'' }}" required
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+        </div>
+
+        <div>
+            <label for="id_description" class="block text-sm font-medium text-gray-700 mb-1">विवरण</label>
+            <textarea name="description" id="id_description" rows="3"
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">{{ form.description.value|default:'' }}</textarea>
+        </div>
+
+        <div>
+            <label for="id_duration" class="block text-sm font-medium text-gray-700 mb-1">देखाउने समय
+                (सेकेन्डमा)</label>
+            <input type="number" name="duration" id="id_duration" value="{{ form.duration.value|default:'10' }}" min="1"
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+            <p class="text-xs text-gray-500 mt-1">कति समय सम्म स्क्रिनमा राख्ने? (Default: 10s)</p>
+        </div>
+
+        <div>
+            <label for="id_cover_image" class="block text-sm font-medium text-gray-700 mb-1">मिडिया अपलोड
+                (फोटो/भिडियो)</label>
+            <input type="file" name="cover_image" id="id_cover_image" accept="image/*,video/*"
+                class="w-full border-gray-300 rounded-md shadow-sm p-2 border">
+            <p class="text-xs text-gray-500 mt-1">OR</p>
+        </div>
+
+        <div>
+            <label for="id_youtube_url" class="block text-sm font-medium text-gray-700 mb-1">YouTube URL</label>
+            <input type="url" name="youtube_url" id="id_youtube_url" value="{{ form.youtube_url.value|default:'' }}" placeholder="https://www.youtube.com/watch?v=..."
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+            <p class="text-xs text-gray-500 mt-1">YouTube video URL (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)</p>
+        </div>
+
+        <div class="pt-5 border-t border-gray-200 flex justify-end space-x-3">
+            <a href="{% url 'gallery_list' %}"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded shadow hover:bg-gray-300">रद्ध गर्नुहोस्</a>
+            <button type="submit" class="px-4 py-2 bg-nepal-blue text-white rounded shadow hover:bg-blue-800">
+                अपलोड गर्नुहोस्
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

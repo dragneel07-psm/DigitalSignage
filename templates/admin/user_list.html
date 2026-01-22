@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}प्रयोगकर्ताहरू{% endblock %}
+
+{% block header_title %}प्रयोगकर्ता व्यवस्थापन{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <div></div>
+    <a href="{% url 'user_create' %}" class="bg-nepal-red text-white px-4 py-2 rounded shadow hover:bg-red-700">
+        + नयाँ प्रयोगकर्ता
+    </a>
+</div>
+
+<div class="bg-white shadow overflow-hidden rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    प्रयोगकर्ता नाम</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    पूरा नाम</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    भूमिका</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ईमेल</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    कार्य</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for user in users %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">{{ user.username }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{{ user.get_full_name }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {{ user.get_role_display }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{ user.email }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <a href="{% url 'user_edit' user.pk %}"
+                        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">✏️</span> सम्पादन
+                    </a>
+                    <a href="{% url 'user_delete' user.pk %}"
+                        class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors duration-150 inline-flex items-center">
+                        <span class="mr-1">🗑️</span> हटाउनुहोस्
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                    कुनै प्रयोगकर्ता उपलब्ध छैन।
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}प्रणाली प्रतिवेदन (System Reports){% endblock %}
+
+{% block header_title %}प्रणाली प्रतिवेदन एवं तथ्यांक{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Published Notices -->
+    <div class="bg-white rounded-lg shadow p-6 border-t-4 border-green-500">
+        <p class="text-sm font-medium text-gray-500 uppercase">प्रकाशित सूचना</p>
+        <p class="text-3xl font-bold text-gray-800">{{ published_notices }}</p>
+        <p class="text-xs text-gray-400 mt-1">कुल {{ total_notices }} मध्ये</p>
+    </div>
+
+    <!-- Contacts -->
+    <div class="bg-white rounded-lg shadow p-6 border-t-4 border-blue-500">
+        <p class="text-sm font-medium text-gray-500 uppercase">कुल सम्पर्कहरू</p>
+        <p class="text-3xl font-bold text-gray-800">{{ total_contacts }}</p>
+    </div>
+
+    <!-- Gallery -->
+    <div class="bg-white rounded-lg shadow p-6 border-t-4 border-purple-500">
+        <p class="text-sm font-medium text-gray-500 uppercase">ग्यालरी फोटोहरू</p>
+        <p class="text-3xl font-bold text-gray-800">{{ total_gallery }}</p>
+    </div>
+
+    <!-- Devices -->
+    <div class="bg-white rounded-lg shadow p-6 border-t-4 border-yellow-500">
+        <p class="text-sm font-medium text-gray-500 uppercase">सक्रिय यन्त्रहरू</p>
+        <p class="text-3xl font-bold text-gray-800">{{ total_devices }}</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Notice Distribution -->
+    <!-- Notice Distribution Removed -->
+
+    <!-- System Summary -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">प्रणाली सारांश (Summary)</h3>
+        <ul class="space-y-3">
+            <li class="flex justify-between border-b pb-2 border-gray-100">
+                <span class="text-gray-600">नागरिक वडापत्र सेवाहरू:</span>
+                <span class="font-bold">{{ total_charters }}</span>
+            </li>
+            <li class="flex justify-between border-b pb-2 border-gray-100">
+                <span class="text-gray-600">खारेज/समाप्त सूचना:</span>
+                <span class="font-bold text-red-500">{{ expired_notices }}</span>
+            </li>
+            <li class="flex justify-between border-b pb-2 border-gray-100">
+                <span class="text-gray-600">ड्राफ्ट (Draft) सूचना:</span>
+                <span class="font-bold text-yellow-500">{{ draft_notices }}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Recent Logs -->
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="p-6 border-b">
+        <h3 class="text-lg font-bold text-gray-900">हालैका गतिविधिहरू (Audit Logs)</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">समय</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">प्रयोगकर्ता</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">कार्य</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">मोडल</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">विवरण</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for log in recent_logs %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">{{ log.timestamp|date:"Y-m-d H:i" }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ log.user.username|default:"Automatic" }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ log.action }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ log.model_name }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{{ log.details }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">कुनै गतिविधि रेकर्ड गरिएको छैन।</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
