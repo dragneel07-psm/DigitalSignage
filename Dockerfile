@@ -46,3 +46,6 @@ RUN chmod +x /app/entrypoint.sh
 
 # Run entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Default command to start the application
+CMD ["gunicorn", "DigitalSignage.wsgi:application", "--bind", "0.0.0.0:8000"]
