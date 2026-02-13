@@ -60,7 +60,28 @@ A modern, responsive Digital Signage system built with Django. This system allow
    ```
    Visit `http://127.0.0.1:8000/admin` to login and `http://127.0.0.1:8000/display/1/` to view the signage.
 
-### Docker Setup
+### Docker Setup (Using Docker Hub Image)
+
+**Quick Start**: Pull and run the pre-built image from Docker Hub:
+
+1. **Pull the image**:
+   ```bash
+   docker pull dragneel07/digital-signage:latest
+   ```
+
+2. **Run the container**:
+   ```bash
+   docker run -d -p 8000:8000 \
+     -e DEBUG=False \
+     -e SECRET_KEY=your-secret-key-here \
+     -e ALLOWED_HOSTS=* \
+     --name digital-signage \
+     dragneel07/digital-signage:latest \
+     gunicorn DigitalSignage.wsgi:application --bind 0.0.0.0:8000
+   ```
+   The application will be available at `http://localhost:8000`.
+
+### Docker Setup (Build from Source)
 1. **Build and start the containers**:
    ```bash
    docker-compose up --build

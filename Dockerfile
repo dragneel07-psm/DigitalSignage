@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
     tzdata \
+    pkg-config \
+    libcairo2-dev \
+    libgirepository1.0-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Set Timezone
