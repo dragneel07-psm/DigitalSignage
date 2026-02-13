@@ -87,6 +87,21 @@ A modern, responsive Digital Signage system built with Django. This system allow
    ```
    The application will be available at `http://localhost:8000`.
 
+### CI/CD - Automated Builds
+
+This repository includes a GitHub Actions workflow to automatically build and push multi-architecture Docker images (amd64/arm64) to Docker Hub.
+
+#### Setup Instructions
+
+To enable automated builds:
+
+1. Go to your repository **Settings** > **Secrets and variables** > **Actions**
+2. Add the following repository secrets:
+    * `DOCKER_USERNAME`: Your Docker Hub username
+    * `DOCKER_PASSWORD`: Your Docker Hub password or access token
+
+The workflow runs automatically on every push to the `master` branch.
+
 ## Deployment Instructions
 
 ### Environment Variables
