@@ -76,8 +76,7 @@ A modern, responsive Digital Signage system built with Django. This system allow
      -e SECRET_KEY=your-secret-key-here \
      -e ALLOWED_HOSTS=* \
      --name digital-signage \
-     dragneel07/digital-signage:latest \
-     gunicorn DigitalSignage.wsgi:application --bind 0.0.0.0:8000
+     dragneel07/digital-signage:latest
    ```
    The application will be available at `http://localhost:8000`.
 
