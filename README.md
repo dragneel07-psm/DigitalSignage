@@ -87,9 +87,26 @@ A modern, responsive Digital Signage system built with Django. This system allow
    ```
    The application will be available at `http://localhost:8000`.
 
+### Docker Setup (Build Multi-Architecture Images)
+
+Use Docker Buildx to publish one image tag that supports Intel/AMD and ARM:
+
+```bash
+docker buildx create --name multiarch-builder --use
+docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t dragneel07/digital-signage:latest \
+  --push .
+```
+
+Platform notes:
+- `linux/amd64`: Intel and AMD x86_64 CPUs
+- `linux/arm64`: 64-bit ARM CPUs
+- `linux/arm/v7`: 32-bit ARM CPUs
+
 ### CI/CD - Automated Builds
 
-This repository includes a GitHub Actions workflow to automatically build and push multi-architecture Docker images (amd64/arm64) to Docker Hub.
+This repository includes a GitHub Actions workflow to automatically build and push multi-architecture Docker images (`linux/amd64`, `linux/arm64`, `linux/arm/v7`) to Docker Hub.
 
 #### Setup Instructions
 

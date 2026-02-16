@@ -32,7 +32,8 @@ jobs:
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64
+          # linux/amd64 covers both Intel and AMD x86_64 CPUs.
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:v1.0
