@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Install system dependencies (Python 3.10 is default in Ubuntu 22.04)
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     python3-dev \
