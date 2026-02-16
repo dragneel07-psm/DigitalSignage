@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from datetime import datetime
+from django.utils import timezone
 import nepali_datetime
 
 @api_view(['GET'])
@@ -11,14 +11,11 @@ def get_nepali_date(request):
     API endpoint to get current Nepali date and time
     Returns Bikram Sambat date in Nepali Unicode
     """
-    # Get current Nepal time
-    now = datetime.now()
+    # Use Django local time so weekday/date are calculated in configured timezone.
+    now = timezone.localtime()
     
     # Convert to Nepali datetime
     nepali_now = nepali_datetime.date.from_datetime_date(now.date())
-    
-    # Format Nepali date
-    nepali_date_str = nepali_now.strftime('%Y-%m-%d')
     
     # Nepali month names
     nepali_months = {
@@ -29,8 +26,8 @@ def get_nepali_date(request):
     
     # Nepali weekday names
     nepali_weekdays = {
-        0: 'आइतबार', 1: 'सोमबार', 2: 'मंगलबार', 3: 'बुधबार',
-        4: 'बिहिबार', 5: 'शुक्रबार', 6: 'शनिबार'
+        0: 'सोमबार', 1: 'मंगलबार', 2: 'बुधबार', 3: 'बिहिबार',
+        4: 'शुक्रबार', 5: 'शनिबार', 6: 'आइतबार'
     }
     
     # Convert numbers to Nepali

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}नयाँ उपकरण थप्नुहोस्{% endblock %}
+
+{% block header_title %}नयाँ उपकरण थप्नुहोस्{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow rounded-lg p-6">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                <p class="text-sm text-red-700">{{ form.non_field_errors.0 }}</p>
+            </div>
+            {% endif %}
+
+            <div>
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                    {{ form.name.label }}
+                </label>
+                <div class="mt-1">{{ form.name }}</div>
+                {% if form.name.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.location_description.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                    {{ form.location_description.label }}
+                </label>
+                <div class="mt-1">{{ form.location_description }}</div>
+                {% if form.location_description.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ form.location_description.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.ip_address.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                    {{ form.ip_address.label }}
+                </label>
+                <div class="mt-1">{{ form.ip_address }}</div>
+                {% if form.ip_address.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ form.ip_address.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="flex items-center gap-2">
+                {{ form.is_active }}
+                <label for="{{ form.is_active.id_for_label }}" class="text-sm text-gray-700">
+                    {{ form.is_active.label }}
+                </label>
+            </div>
+            {% if form.is_active.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ form.is_active.errors.0 }}</p>
+            {% endif %}
+
+            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                <a href="{% url 'device_list' %}"
+                    class="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    रद्द गर्नुहोस्
+                </a>
+                <button type="submit"
+                    class="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-nepal-blue hover:bg-blue-800">
+                    सुरक्षित गर्नुहोस्
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

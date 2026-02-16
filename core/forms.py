@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User, Notice, Contact
+from .models import User, Notice, Contact, Device, TickerMessage
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -60,4 +60,27 @@ class ContactForm(forms.ModelForm):
             'full_name': forms.TextInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
             'phone_number': forms.TextInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
             'position': forms.TextInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
+        }
+
+
+class DeviceForm(forms.ModelForm):
+    class Meta:
+        model = Device
+        fields = ['name', 'location_description', 'ip_address', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
+            'location_description': forms.TextInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
+            'ip_address': forms.TextInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'rounded text-indigo-600 focus:ring-indigo-500'}),
+        }
+
+
+class TickerMessageForm(forms.ModelForm):
+    class Meta:
+        model = TickerMessage
+        fields = ['content', 'order', 'is_active']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border', 'rows': 3}),
+            'order': forms.NumberInput(attrs={'class': 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'rounded text-indigo-600 focus:ring-indigo-500'}),
         }

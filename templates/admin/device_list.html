@@ -8,7 +8,7 @@
 <div class="mb-6 flex justify-between items-center">
     <h2 class="text-lg font-medium text-gray-700">जडान भएका उपकरणहरू</h2>
     {% if user.role == 'admin' or user.is_superuser %}
-    <a href="#" class="bg-nepal-blue text-white px-4 py-2 rounded shadow hover:bg-blue-800">
+    <a href="{% url 'device_create' %}" class="bg-nepal-blue text-white px-4 py-2 rounded shadow hover:bg-blue-800">
         + नयाँ उपकरण जोड्नुहोस्
     </a>
     {% endif %}

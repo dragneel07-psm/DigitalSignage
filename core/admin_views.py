@@ -18,7 +18,7 @@ from xhtml2pdf import pisa
 
 from .models import Notice, Device, Gallery, CitizenCharter, User, Contact, ActionRequest, AuditLog, TickerMessage
 from .forms import (
-    CustomUserCreationForm, CustomUserChangeForm, NoticeForm, SettingsForm, ContactForm
+    CustomUserCreationForm, CustomUserChangeForm, NoticeForm, SettingsForm, ContactForm, DeviceForm, TickerMessageForm
 )
 
 # Ticker Views
@@ -86,11 +86,30 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['active_devices_count'] = Device.objects.filter(is_active=True).count()
         # context['total_offices'] = Office.objects.count()
         context['pending_approval_count'] = Notice.objects.filter(status='recommended').count()
+        context['recent_tickers'] = TickerMessage.objects.order_by('order', '-created_at')[:8]
+        context['ticker_form'] = kwargs.get('ticker_form', TickerMessageForm())
         
         if self.request.user.role == 'admin' or self.request.user.is_superuser:
             context['pending_requests_count'] = ActionRequest.objects.filter(status='pending').count()
         
         return context
+
+    def post(self, request, *args, **kwargs):
+        if not (request.user.role == 'admin' or request.user.is_superuser):
+            messages.error(request, "तपाईंलाई टिकर सन्देश सुरक्षित गर्ने अनुमति छैन।")
+            return redirect('dashboard')
+
+        form = TickerMessageForm(request.POST)
+        if form.is_valid():
+            ticker = form.save(commit=False)
+            ticker.created_by = request.user
+            ticker.save()
+            messages.success(request, "टिकर सन्देश सफलतापूर्वक सुरक्षित गरियो।")
+            return redirect('dashboard')
+
+        messages.error(request, "कृपया टिकर सन्देशको त्रुटिहरू सच्याउनुहोस्।")
+        context = self.get_context_data(ticker_form=form)
+        return self.render_to_response(context)
 
 class NoticeListView(LoginRequiredMixin, ListView):
     model = Notice
@@ -145,6 +164,19 @@ class DeviceListView(LoginRequiredMixin, ListView):
     model = Device
     template_name = "admin/device_list.html"
     context_object_name = "devices"
+
+
+class DeviceCreateView(LoginRequiredMixin, AdminRoleRequiredMixin, CreateView):
+    model = Device
+    template_name = "admin/device_form.html"
+    form_class = DeviceForm
+    success_url = reverse_lazy('device_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "नयाँ उपकरण सफलतापूर्वक थपियो।")
+        return response
+
 
 class PlayerView(TemplateView):
     template_name = "player/display.html"
@@ -404,4 +436,3 @@ class ReportView(LoginRequiredMixin, AdminRoleRequiredMixin, TemplateView):
         context['recent_logs'] = AuditLog.objects.all()[:50]
         
         return context
-

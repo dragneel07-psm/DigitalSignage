@@ -58,11 +58,77 @@
         <div class="flex space-x-4">
             <a href="{% url 'notice_create' %}"
                 class="px-4 py-2 bg-nepal-blue text-white rounded hover:bg-blue-700">नयाँ सूचना सिर्जना</a>
+            <a href="{% url 'ticker_list' %}"
+                class="px-4 py-2 bg-nepal-red text-white rounded hover:bg-red-700">टिकर व्यवस्थापन</a>
             <a href="{% url 'system_report' %}"
                 class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">रिर्पोट हेर्नुहोस्</a>
         </div>
     </div>
 </div>
+
+{% if user.role == 'admin' or user.is_superuser %}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+    <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 border-b pb-2">टिकर सन्देश थप्नुहोस्</h3>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label for="{{ ticker_form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    सन्देश
+                </label>
+                {{ ticker_form.content }}
+                {% if ticker_form.content.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ ticker_form.content.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="{{ ticker_form.order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        क्रम
+                    </label>
+                    {{ ticker_form.order }}
+                    {% if ticker_form.order.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ ticker_form.order.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="flex items-center pt-6">
+                    {{ ticker_form.is_active }}
+                    <label for="{{ ticker_form.is_active.id_for_label }}" class="ml-2 text-sm text-gray-700">
+                        सक्रिय
+                    </label>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="px-4 py-2 bg-nepal-red text-white rounded hover:bg-red-700">
+                    टिकर सुरक्षित गर्नुहोस्
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4 border-b pb-2">हालका टिकर सन्देशहरू</h3>
+        <div class="space-y-3">
+            {% for ticker in recent_tickers %}
+            <div class="border rounded p-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs text-gray-500">क्रम: {{ ticker.order }}</span>
+                    <span class="px-2 py-0.5 text-xs rounded-full {% if ticker.is_active %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-700{% endif %}">
+                        {% if ticker.is_active %}सक्रिय{% else %}निष्क्रिय{% endif %}
+                    </span>
+                </div>
+                <p class="text-sm text-gray-800">{{ ticker.content }}</p>
+            </div>
+            {% empty %}
+            <p class="text-sm text-gray-500">अहिलेसम्म कुनै टिकर सन्देश छैन।</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
 
 
 <!-- Data Injection/Scripts Removed -->

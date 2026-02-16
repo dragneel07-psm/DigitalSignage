@@ -28,6 +28,7 @@ urlpatterns = [
     path('notices/<int:pk>/edit/', admin_views.NoticeUpdateView.as_view(), name='notice_edit'),
     path('notices/<int:pk>/delete/', admin_views.NoticeDeleteView.as_view(), name='notice_delete'),
     path('devices/list/', admin_views.DeviceListView.as_view(), name='device_list'),
+    path('devices/create/', admin_views.DeviceCreateView.as_view(), name='device_create'),
     path('display/<int:device_id>/', admin_views.PlayerView.as_view(), name='player_display'),
     
     # Gallery & Charter
