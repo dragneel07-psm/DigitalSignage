@@ -5,9 +5,10 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
-from .models import User, Device, Notice, Gallery, CitizenCharter, TickerMessage
-from .serializers import (UserSerializer, DeviceSerializer, 
-                          NoticeSerializer, GallerySerializer, CitizenCharterSerializer, TickerMessageSerializer)
+from .models import User, Device, Notice, Gallery, CitizenCharter, TickerMessage, Representative
+from .serializers import (UserSerializer, DeviceSerializer,
+                          NoticeSerializer, GallerySerializer, CitizenCharterSerializer, TickerMessageSerializer,
+                          RepresentativeSerializer)
 
 class TickerViewSet(viewsets.ModelViewSet):
     queryset = TickerMessage.objects.filter(is_active=True).order_by('order', '-created_at')
@@ -58,6 +59,12 @@ from rest_framework.views import APIView
 class CitizenCharterViewSet(viewsets.ModelViewSet):
     queryset = CitizenCharter.objects.all()
     serializer_class = CitizenCharterSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class RepresentativeViewSet(viewsets.ModelViewSet):
+    queryset = Representative.objects.filter(is_active=True).order_by('order', 'full_name')
+    serializer_class = RepresentativeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 

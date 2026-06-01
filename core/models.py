@@ -210,3 +210,40 @@ class TickerMessage(models.Model):
         verbose_name_plural = "टिकर सन्देशहरू"
         ordering = ['order', '-created_at']
 
+
+class Representative(models.Model):
+    DESIGNATION_CHOICES = [
+        ('प्रमुख प्रशासकीय अधिकृत', 'प्रमुख प्रशासकीय अधिकृत (CAO)'),
+        ('प्रमुख (CEO)', 'प्रमुख (CEO)'),
+        ('सूचना अधिकारी', 'सूचना अधिकारी (Suchana Adhakari)'),
+        ('गुनासो अधिकारी', 'गुनासो अधिकारी (Gunaso Adhakari)'),
+        ('लेखा अधिकृत', 'लेखा अधिकृत'),
+        ('कानून अधिकृत', 'कानून अधिकृत'),
+        ('प्राविधिक अधिकृत', 'प्राविधिक अधिकृत'),
+        ('वडा अध्यक्ष', 'वडा अध्यक्ष'),
+        ('अन्य', 'अन्य (Other)'),
+    ]
+    full_name = models.CharField(max_length=150, verbose_name="पूरा नाम")
+    designation = models.CharField(max_length=100, choices=DESIGNATION_CHOICES, verbose_name="पद")
+    custom_designation = models.CharField(max_length=100, blank=True, verbose_name="कस्टम पद (अन्य भएमा)")
+    phone_number = models.CharField(max_length=15, blank=True, verbose_name="फोन नं.")
+    email = models.EmailField(blank=True, verbose_name="इमेल")
+    photo = models.ImageField(upload_to='representatives/', blank=True, null=True, verbose_name="फोटो")
+    order = models.PositiveIntegerField(default=0, verbose_name="क्रम")
+    is_active = models.BooleanField(default=True, verbose_name="सक्रिय")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name="सिर्जनाकर्ता")
+
+    def get_display_designation(self):
+        if self.designation == 'अन्य' and self.custom_designation:
+            return self.custom_designation
+        return self.designation
+
+    def __str__(self):
+        return f"{self.full_name} ({self.get_display_designation()})"
+
+    class Meta:
+        verbose_name = "प्रतिनिधि / पदाधिकारी"
+        verbose_name_plural = "प्रतिनिधिहरू / पदाधिकारीहरू"
+        ordering = ['order', 'full_name']
+
+

@@ -31,6 +31,10 @@
             class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'charter' in request.path %}bg-blue-900{% endif %}">
             <span class="mr-3">📜</span> नागरिक वडापत्र
         </a>
+        <a href="{% url 'representative_list' %}"
+            class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'representatives' in request.path %}bg-blue-900{% endif %}">
+            <span class="mr-3">👤</span> पदाधिकारीहरू
+        </a>
         <a href="{% url 'ticker_list' %}"
             class="group flex items-center px-2 py-2 text-base font-medium rounded-md hover:bg-blue-800 {% if 'ticker' in request.path %}bg-blue-900{% endif %}">
             <span class="mr-3">🔔</span> टिकर सन्देश

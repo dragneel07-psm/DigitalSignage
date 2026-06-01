@@ -11,6 +11,7 @@ router.register(r'notices', views.NoticeViewSet)
 router.register(r'galleries', views.GalleryViewSet)
 router.register(r'charters', views.CitizenCharterViewSet)
 router.register(r'ticker', views.TickerViewSet)
+router.register(r'representatives', views.RepresentativeViewSet)
 
 from django.views.generic import RedirectView
 
@@ -40,6 +41,12 @@ urlpatterns = [
     path('charter/create/', admin_views.CitizenCharterCreateView.as_view(), name='charter_create'),
     path('charter/<int:pk>/edit/', admin_views.CitizenCharterUpdateView.as_view(), name='charter_edit'),
     path('charter/<int:pk>/delete/', admin_views.CitizenCharterDeleteView.as_view(), name='charter_delete'),
+
+    # Representative Management
+    path('representatives/list/', admin_views.RepresentativeListView.as_view(), name='representative_list'),
+    path('representatives/create/', admin_views.RepresentativeCreateView.as_view(), name='representative_create'),
+    path('representatives/<int:pk>/edit/', admin_views.RepresentativeUpdateView.as_view(), name='representative_edit'),
+    path('representatives/<int:pk>/delete/', admin_views.RepresentativeDeleteView.as_view(), name='representative_delete'),
 
     # Ticker Management
     path('tickers/list/', admin_views.TickerListView.as_view(), name='ticker_list'),

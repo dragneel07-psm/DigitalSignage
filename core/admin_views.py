@@ -16,7 +16,7 @@ from io import BytesIO
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 
-from .models import Notice, Device, Gallery, CitizenCharter, User, Contact, ActionRequest, AuditLog, TickerMessage
+from .models import Notice, Device, Gallery, CitizenCharter, User, Contact, ActionRequest, AuditLog, TickerMessage, Representative
 from .forms import (
     CustomUserCreationForm, CustomUserChangeForm, NoticeForm, SettingsForm, ContactForm, DeviceForm, TickerMessageForm
 )
@@ -436,3 +436,41 @@ class ReportView(LoginRequiredMixin, AdminRoleRequiredMixin, TemplateView):
         context['recent_logs'] = AuditLog.objects.all()[:50]
         
         return context
+
+
+# Representative Management Views
+class RepresentativeListView(LoginRequiredMixin, ListView):
+    model = Representative
+    template_name = "admin/representative_list.html"
+    context_object_name = "representatives"
+    ordering = ['order', 'full_name']
+
+class RepresentativeCreateView(LoginRequiredMixin, CreateView):
+    model = Representative
+    template_name = "admin/representative_form.html"
+    fields = ['full_name', 'designation', 'custom_designation', 'phone_number', 'email', 'photo', 'order', 'is_active']
+    success_url = reverse_lazy('representative_list')
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        messages.success(self.request, "पदाधिकारी सफलतापूर्वक सिर्जना गरियो।")
+        return super().form_valid(form)
+
+class RepresentativeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Representative
+    template_name = "admin/representative_form.html"
+    fields = ['full_name', 'designation', 'custom_designation', 'phone_number', 'email', 'photo', 'order', 'is_active']
+    success_url = reverse_lazy('representative_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, "पदाधिकारी सफलतापूर्वक अद्यावधिक गरियो।")
+        return super().form_valid(form)
+
+class RepresentativeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Representative
+    template_name = "admin/confirm_delete.html"
+    success_url = reverse_lazy('representative_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "पदाधिकारी सफलतापूर्वक हटाइयो।")
+        return super().delete(request, *args, **kwargs)
