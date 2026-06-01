@@ -25,35 +25,9 @@
         body {
             font-family: 'Mukta', sans-serif;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 0%, #0f172a 0%, #020617 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
             display: flex;
             flex-direction: column;
-            color: #f3f4f6;
-            position: relative;
-        }
-
-        /* Ambient background glow effects */
-        body::before {
-            content: '';
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            width: 50%;
-            height: 50%;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        body::after {
-            content: '';
-            position: absolute;
-            bottom: -10%;
-            right: -10%;
-            width: 50%;
-            height: 50%;
-            background: radial-gradient(circle, rgba(244, 63, 94, 0.03) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
         }
 
         /* Responsive Font Sizes and Spacing (Enlarged for readability) */
@@ -93,13 +67,11 @@
             p { font-size: 1.6rem; }
         }
 
-        /* Glassmorphism panel styles */
+        /* Panel styles */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 10;
         }
@@ -179,20 +151,20 @@
 <body class="h-screen w-screen flex flex-col">
 
     <!-- Header -->
-    <div class="bg-gradient-to-r from-red-950/80 via-slate-900/95 to-red-950/80 text-white py-5 px-8 shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-b border-red-500/20 backdrop-blur-md shrink-0 relative z-20">
+    <div class="bg-gradient-to-r from-red-700 to-red-600 text-white py-4 px-6 shadow-lg shrink-0 relative z-20">
         <div class="flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-16 h-16 bg-white/95 rounded-full flex items-center justify-center p-2 shadow-[0_0_20px_rgba(255,255,255,0.4)] border border-white shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1">
                     <img src="{% static 'img/nepal-logo.svg' %}" alt="नेपाल सरकार लोगो"
                         class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">अपिहिमाल गाउँपालिका</h1>
-                    <p class="text-base md:text-lg text-red-300 font-semibold opacity-95 mt-1">डिजिटल सूचना व्यवस्थापन प्रणाली</p>
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">अपिहिमाल गाउँपालिका</h1>
+                    <p class="text-base md:text-lg text-white font-semibold opacity-90 mt-1">डिजिटल सूचना व्यवस्थापन प्रणाली</p>
                 </div>
             </div>
             <div class="text-right flex flex-col gap-1">
-                <div id="nepali-date" class="text-2xl font-black bg-gradient-to-r from-yellow-300 to-amber-400 bg-clip-text text-transparent"></div>
+                <div id="nepali-date" class="text-2xl font-black text-white"></div>
                 <div id="time" class="text-xl md:text-2xl font-bold text-white/90 font-mono"></div>
             </div>
         </div>
@@ -208,25 +180,25 @@
 
             <!-- TOP LEFT: Citizen Charter (75%) -->
             <div class="glass-panel rounded-xl p-5 flex flex-col overflow-hidden min-h-0"
-                style="align-self: stretch; min-height: 0; border-left: 4px solid #0ea5e9;">
-                <h2 class="text-2xl font-extrabold bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent border-b-2 border-blue-500/30 pb-3 mb-4 shrink-0 flex items-center gap-2">
+                style="align-self: stretch; min-height: 0;">
+                <h2 class="text-2xl font-extrabold text-blue-700 border-b-4 border-blue-700 pb-3 mb-4 shrink-0 flex items-center gap-2">
                     📋 नागरिक वडापत्र
                 </h2>
                 <div id="charter-display" class="flex-1 text-xs min-h-0 overflow-hidden w-full"
                     style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
-                    <div class="text-center text-slate-400 py-6 text-lg">Loading...</div>
+                    <div class="text-center text-gray-400 py-6 text-lg">Loading...</div>
                 </div>
             </div>
 
             <!-- BOTTOM LEFT: Representatives / Officers (25%) -->
             <div class="glass-panel rounded-xl p-5 flex flex-col overflow-hidden min-h-0"
-                style="align-self: stretch; min-height: 0; background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%); border-left: 4px solid #6366f1;">
-                <h3 class="text-xl font-extrabold bg-gradient-to-r from-indigo-400 to-blue-300 bg-clip-text text-transparent border-b border-indigo-500/20 pb-2 mb-3 shrink-0 uppercase tracking-wide flex items-center gap-2">
+                style="align-self: stretch; min-height: 0;">
+                <h3 class="text-xl font-extrabold text-blue-700 border-b-4 border-blue-700 pb-2 mb-3 shrink-0 uppercase tracking-wide flex items-center gap-2">
                     🏛️ पदाधिकारीहरू
                 </h3>
                 <div id="representative-display" class="flex-1 min-h-0 overflow-hidden flex items-center justify-center"
                     style="flex: 1; min-height: 0;">
-                    <div class="text-center text-slate-400 text-lg w-full">Loading...</div>
+                    <div class="text-center text-gray-400 text-lg w-full">Loading...</div>
                 </div>
             </div>
         </div>
@@ -237,36 +209,36 @@
 
             <!-- TOP: Gallery (75% height: row-span-3) -->
             <div class="row-span-3 glass-panel rounded-xl p-0 flex flex-col overflow-hidden min-h-0 relative"
-                style="display: flex; flex-direction: column; min-height: 0; align-self: stretch; border-left: 4px solid #10b981;">
+                style="display: flex; flex-direction: column; min-height: 0; align-self: stretch;">
 
                 <div id="gallery-display"
-                    class="flex-1 min-h-0 flex items-center justify-center bg-slate-950/30 rounded overflow-hidden relative"
+                    class="flex-1 min-h-0 flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 rounded overflow-hidden relative"
                     style="display: flex; flex: 1; min-height: 0;">
                     <div class="text-center p-4">
                         <div class="text-6xl mb-3 animate-pulse">📸</div>
-                        <p class="font-semibold text-slate-300 text-lg">Loading...</p>
+                        <p class="font-semibold text-gray-700 text-lg">Loading...</p>
                     </div>
                 </div>
             </div>
 
             <!-- BOTTOM: Main Notices (25% height: row-span-1) -->
-            <div class="row-span-1 glass-panel rounded-xl p-4 flex flex-col overflow-hidden min-h-0"
-                style="display: flex; flex-direction: column; min-height: 0; align-self: stretch; border-left: 4px solid #ef4444;">
-                <h3 class="text-2xl font-extrabold bg-gradient-to-r from-red-400 via-rose-300 to-orange-400 bg-clip-text text-transparent border-b-2 border-rose-500/30 pb-2 mb-3 shrink-0 flex items-center gap-2">
-                    📢 सूचनाहरू
+            <div class="row-span-1 glass-panel rounded-xl p-3 flex flex-col overflow-hidden min-h-0"
+                style="display: flex; flex-direction: column; min-height: 0; align-self: stretch;">
+                <h3 class="text-lg font-bold text-red-700 border-b border-red-700 pb-1 mb-1.5 shrink-0 flex items-center gap-1.5">
+                    📢  सूचनाहरू
                 </h3>
                 <div id="notice-display" class="flex-1 overflow-y-auto space-y-4 pr-2 auto-scroll-notice no-scrollbar"
                     style="flex: 1; min-height: 0; overflow-y: auto;">
-                    <div class="text-center text-slate-400 py-6 text-lg">Loading notices...</div>
+                    <div class="text-center text-gray-400 py-6 text-lg">Loading notices...</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Footer Ticker -->
-    <div class="bg-slate-900/90 py-3.5 px-6 overflow-hidden shrink-0 border-t border-amber-500/30 backdrop-blur-md relative z-20">
+    <div class="bg-yellow-400 py-2 px-4 overflow-hidden shrink-0">
         <div class="ticker whitespace-nowrap">
-            <span id="ticker-content" class="text-xl md:text-2xl font-extrabold text-amber-400 tracking-wide text-shadow-sm">🔔 स्वागत छ! अपिहिमाल गाउँपालिकाको डिजिटल सूचना प्रणालीमा • Welcome to Digital Notice Board • सूचनाहरू नियमित अपडेट हुन्छन् • For any queries contact rural municipality office</span>
+            <span id="ticker-content" class="text-xl md:text-2xl font-extrabold text-black tracking-wide">🔔 स्वागत छ! अपिहिमाल गाउँपालिकाको डिजिटल सूचना प्रणालीमा • Welcome to Digital Notice Board • सूचनाहरू नियमित अपडेट हुन्छन् • For any queries contact rural municipality office</span>
         </div>
     </div>
 
@@ -369,35 +341,29 @@
         function displayNotices() {
             const container = document.getElementById('notice-display');
             if (notices.length === 0) {
-                container.innerHTML = '<div class="text-center text-slate-400 py-6 text-xl">कुनै सूचना प्रकाशित गरिएको छैन</div>';
+                container.innerHTML = '<div class="text-center text-gray-400 py-6 text-xl">कुनै सूचना प्रकाशित गरिएको छैन</div>';
                 return;
             }
 
             let html = '';
             notices.forEach(notice => {
-                let badge = '', badgeClass = '', cardClass = '';
+                let badge = '', badgeColor = '';
                 if (notice.priority === 'emergency') {
-                    badge = '🚨 आपत्कालीन'; 
-                    badgeClass = 'bg-red-500/20 text-red-300 border border-red-500/30 animate-pulse';
-                    cardClass = 'border-l-4 border-red-500 bg-red-500/5 shadow-[0_4px_20px_rgba(239,68,68,0.08)]';
+                    badge = '🚨 आपत्कालीन'; badgeColor = 'bg-red-600 text-white animate-pulse';
                 } else if (notice.priority === 'high') {
-                    badge = '⚠️ उच्च'; 
-                    badgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                    cardClass = 'border-l-4 border-amber-500 bg-amber-500/5 shadow-[0_4px_20px_rgba(245,158,11,0.06)]';
+                    badge = '⚠️ उच्च'; badgeColor = 'bg-orange-500 text-white';
                 } else {
-                    badge = '📌 सामान्य'; 
-                    badgeClass = 'bg-blue-500/20 text-blue-300 border border-blue-500/20';
-                    cardClass = 'border-l-4 border-sky-500 bg-sky-500/5 shadow-[0_4px_20px_rgba(56,189,248,0.04)]';
+                    badge = '📌 सामान्य'; badgeColor = 'bg-blue-500 text-white';
                 }
 
                 html += `
-                    <div class="fade-in ${cardClass} p-4 rounded-r-lg mb-3">
+                    <div class="fade-in border-l-4 ${notice.priority === 'emergency' ? 'border-red-600 bg-red-50' : 'border-blue-600 bg-blue-50'} p-4 rounded-r-lg mb-3 shadow-md">
                         <div class="flex justify-between items-start mb-2.5">
-                            <h3 class="font-extrabold text-white flex-1 text-shadow-sm" style="font-size: clamp(1.2rem, 2.5vw, 1.7rem); line-height: 1.3;">${notice.title}</h3>
-                            <span class="px-2.5 py-1 rounded-full text-xs md:text-sm font-bold ${badgeClass} ml-3 shrink-0">${badge}</span>
+                            <h3 class="font-extrabold text-gray-800 flex-1" style="font-size: clamp(1.1rem, 2.8vh, 1.55rem); line-height: 1.3;">${notice.title}</h3>
+                            <span class="px-2.5 py-1 rounded-full text-xs md:text-sm font-bold ${badgeColor} ml-3 shrink-0">${badge}</span>
                         </div>
-                        <p class="text-slate-200 leading-relaxed mb-3" style="font-size: clamp(1.05rem, 2.2vw, 1.45rem);">${notice.content}</p>
-                        <div class="flex justify-between text-xs md:text-sm text-slate-400 font-medium">
+                        <p class="text-gray-700 leading-relaxed mb-3" style="font-size: clamp(0.95rem, 2.2vh, 1.25rem);">${notice.content}</p>
+                        <div class="flex justify-between text-xs md:text-sm text-gray-500 font-medium">
                             <span>📍 ${notice.office_name || 'अपिहिमाल गाउँपालिका'}</span>
                             <span>📅 ${new Date(notice.published_date).toLocaleDateString('ne-NP')}</span>
                         </div>
@@ -518,36 +484,36 @@
             const item2 = charters.length > 1 ? charters[item2Index] : null;
 
             const renderItem = (charter) => `
-                <div class="fade-in w-full flex flex-col min-h-0" style="display: flex; flex-direction: column; width: 100%; min-height: 0; gap: 0.75rem;">
+                <div class="fade-in w-full flex flex-col min-h-0 bg-blue-50/20 p-4 rounded-xl border border-blue-100/60" style="display: flex; flex-direction: column; width: 100%; min-height: 0; gap: 0.5rem;">
                     <!-- Service Header -->
-                    <h4 class="font-extrabold text-sky-400 shrink-0 text-shadow-sm" style="flex-shrink: 0; line-height: 1.3; word-wrap: break-word; font-size: clamp(1.4rem, 3.5vw, 2.1rem);">${charter.service_name}</h4>
+                    <h4 class="font-extrabold text-blue-800 shrink-0" style="flex-shrink: 0; line-height: 1.3; word-wrap: break-word; font-size: clamp(1.1rem, 3.2vh, 1.6rem);">${charter.service_name}</h4>
                     
                     <!-- Service Details Grid -->
-                    <div class="grid grid-cols-3 gap-3 shrink-0" style="flex-shrink: 0; font-size: clamp(1.05rem, 2.4vw, 1.5rem); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));">
-                        <div class="flex flex-col p-2.5 rounded-lg bg-white/5 border border-white/5" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.25rem;">
-                            <span style="font-size: 1.5rem;">⏱️</span>
-                            <span class="text-slate-400 font-semibold uppercase tracking-wider" style="font-size: 0.8rem;">समय</span>
-                            <span class="text-white font-extrabold mt-0.5">${charter.service_time}</span>
+                    <div class="grid grid-cols-3 gap-2.5 shrink-0" style="flex-shrink: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));">
+                        <div class="flex flex-col p-2 rounded-lg bg-blue-50/50 border border-blue-100/50" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.15rem; min-width: 0; overflow: hidden; width: 100%;">
+                            <span style="font-size: clamp(1.1rem, 2.8vh, 1.4rem);">⏱️</span>
+                            <span class="text-blue-600 font-semibold uppercase tracking-wider" style="font-size: clamp(0.7rem, 1.8vh, 0.8rem);">समय</span>
+                            <span class="text-gray-800 font-extrabold mt-0.5" style="font-size: clamp(0.8rem, 2.2vh, 1.15rem); word-break: break-word; width: 100%;">${charter.service_time}</span>
                         </div>
-                        <div class="flex flex-col p-2.5 rounded-lg bg-white/5 border border-white/5" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.25rem;">
-                            <span style="font-size: 1.5rem;">💰</span>
-                            <span class="text-slate-400 font-semibold uppercase tracking-wider" style="font-size: 0.8rem;">शुल्क</span>
-                            <span class="text-white font-extrabold mt-0.5">${charter.service_fee}</span>
+                        <div class="flex flex-col p-2 rounded-lg bg-blue-50/50 border border-blue-100/50" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.15rem; min-width: 0; overflow: hidden; width: 100%;">
+                            <span style="font-size: clamp(1.1rem, 2.8vh, 1.4rem);">💰</span>
+                            <span class="text-blue-600 font-semibold uppercase tracking-wider" style="font-size: clamp(0.7rem, 1.8vh, 0.8rem);">शुल्क</span>
+                            <span class="text-gray-800 font-extrabold mt-0.5" style="font-size: clamp(0.8rem, 2.2vh, 1.15rem); word-break: break-word; width: 100%;">${charter.service_fee}</span>
                         </div>
-                        <div class="flex flex-col p-2.5 rounded-lg bg-white/5 border border-white/5" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.25rem;">
-                            <span style="font-size: 1.5rem;">👤</span>
-                            <span class="text-slate-400 font-semibold uppercase tracking-wider" style="font-size: 0.8rem;">शाखा</span>
-                            <span class="text-white font-extrabold mt-0.5 truncate w-full">${charter.responsible_officer}</span>
+                        <div class="flex flex-col p-2 rounded-lg bg-blue-50/50 border border-blue-100/50" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.15rem; min-width: 0; overflow: hidden; width: 100%;">
+                            <span style="font-size: clamp(1.1rem, 2.8vh, 1.4rem);">👤</span>
+                            <span class="text-blue-600 font-semibold uppercase tracking-wider" style="font-size: clamp(0.7rem, 1.8vh, 0.8rem);">शाखा</span>
+                            <span class="text-gray-800 font-extrabold mt-0.5 truncate w-full" style="font-size: clamp(0.8rem, 2.2vh, 1.15rem); display: block;" title="${charter.responsible_officer}">${charter.responsible_officer}</span>
                         </div>
                     </div>
                     
                     <!-- Required Documents -->
-                    <div class="flex flex-col min-h-0 flex-1 border-t border-white/10 pt-3" style="display: flex; flex-direction: column; min-height: 0; flex: 1;">
-                        <strong class="block mb-2 shrink-0 text-sky-300 flex items-center gap-1.5" style="flex-shrink: 0; font-size: clamp(1.15rem, 2.6vw, 1.6rem);">
+                    <div class="flex flex-col min-h-0 flex-1 border-t border-blue-100 pt-2" style="display: flex; flex-direction: column; min-height: 0; flex: 1;">
+                        <strong class="block mb-1.5 shrink-0 text-blue-700 flex items-center gap-1.5" style="flex-shrink: 0; font-size: clamp(0.9rem, 2.5vh, 1.25rem);">
                             <span>📄</span> आवश्यक कागजात:
                         </strong>
                         <div class="auto-scroll-content flex-1 min-h-0 overflow-y-auto no-scrollbar w-full" style="flex: 1; min-height: 0; overflow-y: scroll; width: 100%; display: block; height: 100%;">
-                            <p class="whitespace-pre-line leading-relaxed text-slate-200 pr-1 pb-3" style="font-size: clamp(1.05rem, 2.2vw, 1.45rem);">${charter.required_docs}</p>
+                            <p class="whitespace-pre-line leading-relaxed text-gray-700 pr-1 pb-2" style="font-size: clamp(0.8rem, 2.2vh, 1.1rem);">${charter.required_docs}</p>
                         </div>
                     </div>
                 </div>
@@ -778,9 +744,9 @@
                     contentHtml = `
                         <div class="w-full h-full relative animate-fade-in group bg-black flex items-center justify-center">
                             <div id="youtube-player"></div>
-                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 text-white flex justify-between items-end" style="z-index: 10;">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white flex justify-between items-end" style="z-index: 10;">
                                 <h4 class="font-extrabold line-clamp-1 text-left flex-1 text-shadow" style="font-size: clamp(1.25rem, 2.5vw, 1.85rem);">${gallery.title}</h4>
-                                <div class="text-gray-300 ml-3 font-mono font-bold shrink-0" style="font-size: clamp(0.95rem, 2vw, 1.3rem);">📺 ${currentGalleryIndex + 1}/${galleries.length}</div>
+                                <div class="text-xs text-gray-300 ml-2 font-mono">📺 ${currentGalleryIndex + 1}/${galleries.length}</div>
                             </div>
                         </div>
                     `;
@@ -805,20 +771,20 @@
                             },
                             events: {
                                 'onReady': (event) => {
-                                    console.log('[GALLERY] YT Player Ready - Playing');
-                                    event.target.playVideo();
+                                     console.log('[GALLERY] YT Player Ready - Playing');
+                                     event.target.playVideo();
                                 },
                                 'onStateChange': (event) => {
-                                    // 0 = ended
-                                    if (event.data === 0) {
-                                        console.log('[GALLERY] YT Video Ended - Advancing gallery');
-                                        nextGalleryItem();
-                                    }
+                                     // 0 = ended
+                                     if (event.data === 0) {
+                                         console.log('[GALLERY] YT Video Ended - Advancing gallery');
+                                         nextGalleryItem();
+                                     }
                                 },
                                 'onError': (event) => {
-                                    console.error('[GALLERY] YT API Error:', event.data);
-                                    // Error 153 is handled gracefully by moving on
-                                    setTimeout(nextGalleryItem, 3000);
+                                     console.error('[GALLERY] YT API Error:', event.data);
+                                     // Error 153 is handled gracefully by moving on
+                                     setTimeout(nextGalleryItem, 3000);
                                 }
                             }
                         });
@@ -858,19 +824,19 @@
                         <div class="w-full h-full bg-black">
                             ${mediaHtml}
                         </div>
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 text-white flex justify-between items-end">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white flex justify-between items-end">
                             <h4 class="font-extrabold line-clamp-1 text-left flex-1 text-shadow" style="font-size: clamp(1.25rem, 2.5vw, 1.85rem);">${gallery.title}</h4>
-                           <div class="text-gray-300 ml-3 font-mono font-bold shrink-0" style="font-size: clamp(0.95rem, 2vw, 1.3rem);">${currentGalleryIndex + 1}/${galleries.length}</div>
+                           <div class="text-xs text-gray-300 ml-2 font-mono">${currentGalleryIndex + 1}/${galleries.length}</div>
                         </div>
                     </div>
                 `;
             } else {
                 contentHtml = `
                     <div class="text-center fade-in p-6">
-                        <div class="text-7xl mb-4 animate-pulse">📸</div>
-                        <p class="font-extrabold text-white mb-2 text-shadow-sm" style="font-size: clamp(1.4rem, 3vw, 2.2rem);">${gallery.title}</p>
-                        <p class="text-slate-300 mt-2 leading-relaxed" style="font-size: clamp(1.1rem, 2.2vw, 1.6rem);">${gallery.description || ''}</p>
-                        <div class="text-slate-400 font-bold font-mono mt-4" style="font-size: clamp(0.95rem, 2vw, 1.3rem);">${currentGalleryIndex + 1} / ${galleries.length}</div>
+                        <div class="text-7xl mb-4">📸</div>
+                        <p class="font-extrabold text-gray-800 mb-2" style="font-size: clamp(1.4rem, 3vw, 2.2rem);">${gallery.title}</p>
+                        <p class="text-gray-600 mt-2 leading-relaxed" style="font-size: clamp(1.1rem, 2.2vw, 1.6rem);">${gallery.description || ''}</p>
+                        <div class="text-gray-400 font-bold font-mono mt-4" style="font-size: clamp(0.95rem, 2vw, 1.3rem);">${currentGalleryIndex + 1} / ${galleries.length}</div>
                     </div>
                 `;
             }
@@ -957,14 +923,14 @@
         function renderRepresentative(rep) {
             const photoHtml = rep.photo_url
                 ? `<img src="${rep.photo_url}" alt="${rep.full_name}"
-                      class="w-20 h-20 rounded-full object-cover border-2 border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.2)] shrink-0"
-                      style="width:4.5rem;height:4.5rem;border-radius:50%;object-fit:cover;flex-shrink:0;">`
-                : `<div style="width:4.5rem;height:4.5rem;border-radius:50%;background:linear-gradient(135deg, #4f46e5, #3b82f6);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.75rem;font-weight:900;color:#ffffff;border:2px solid rgba(255,255,255,0.1);shadow:[0_0_15px_rgba(99,102,241,0.2)]">
+                      class="rounded-full object-cover border-2 border-gray-200 shrink-0"
+                      style="width:clamp(3.2rem, 8.5vh, 4.5rem);height:clamp(3.2rem, 8.5vh, 4.5rem);border-radius:50%;object-fit:cover;flex-shrink:0;">`
+                : `<div style="width:clamp(3.2rem, 8.5vh, 4.5rem);height:clamp(3.2rem, 8.5vh, 4.5rem);border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:clamp(1.3rem, 3.5vh, 1.75rem);font-weight:900;color:#4b5563;border:2px solid #d1d5db;">
                       ${rep.full_name.charAt(0)}
                    </div>`;
 
             const phoneHtml = rep.phone_number
-                ? `<span class="flex items-center gap-1 text-slate-400 font-medium mt-1" style="font-size:clamp(0.95rem,2vw,1.25rem);">📞 ${rep.phone_number}</span>`
+                ? `<span class="flex items-center gap-1 text-gray-500 font-medium mt-1" style="font-size:clamp(0.85rem,1.9vh,1.1rem);">📞 ${rep.phone_number}</span>`
                 : '';
 
             return `
@@ -972,10 +938,10 @@
                      style="display:flex;align-items:center;gap:1.25rem;width:100%;">
                     ${photoHtml}
                     <div style="flex:1;min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:0.15rem;">
-                        <div style="font-weight:900;color:#ffffff;font-size:clamp(1.25rem,3vw,1.8rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,0.3);">
+                        <div style="font-weight:900;color:#1f2937;font-size:clamp(1.15rem, 2.8vh, 1.6rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                             ${rep.full_name}
                         </div>
-                        <div style="color:#a5b4fc;font-weight:700;font-size:clamp(1.05rem,2.2vw,1.5rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                        <div style="color:#2563eb;font-weight:700;font-size:clamp(0.95rem, 2.2vh, 1.3rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                             ${rep.display_designation}
                         </div>
                         ${phoneHtml}
@@ -994,7 +960,7 @@
 
             function showCurrent() {
                 if (representatives.length === 0) {
-                    container.innerHTML = '<div class="text-center text-blue-300 text-xs w-full">कुनै पदाधिकारी थपिएको छैन</div>';
+                    container.innerHTML = '<div class="text-center text-gray-400 text-xs w-full">कुनै पदाधिकारी थपिएको छैन</div>';
                     if (repRotationInterval) {
                         clearInterval(repRotationInterval);
                         repRotationInterval = null;
