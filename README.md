@@ -141,7 +141,7 @@ Configure these in your hosting environment:
 
 ## License
 
-This project is open-source. See the [LICENSE](LICENSE) file for details (if applicable).
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 Developed with ❤️ for Advanced Signage Solutions.
