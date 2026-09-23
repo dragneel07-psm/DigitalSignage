@@ -12,17 +12,22 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-i=&rdqp_omxijpbr#ioe%uo+pp^oooire4tzbnn4x*n1nc9ne5")
+# Local development works out of the box; production must supply its own key.
+DEBUG = os.environ.get("DEBUG", "True").lower() in {"true", "1", "yes"}
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ImproperlyConfigured("Set SECRET_KEY when DEBUG=False.")
+    SECRET_KEY = "django-insecure-local-development-only"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "True") == "True"
-
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+ALLOWED_HOSTS = [host.strip() for host in os.environ.get(
+    "ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]"
+).split(",") if host.strip()]
 
 
 # Application definition
@@ -137,7 +142,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core.User"
 
-CORS_ALLOW_ALL_ORIGINS = True # For dev
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in os.environ.get(
+    "CORS_ALLOWED_ORIGINS", ""
+).split(",") if origin.strip()]
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "dashboard"

@@ -5,6 +5,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.utils import timezone
+from django.db.models import Q
 from .models import User, Device, Notice, Gallery, CitizenCharter, TickerMessage, Representative
 from .serializers import (UserSerializer, DeviceSerializer,
                           NoticeSerializer, GallerySerializer, CitizenCharterSerializer, TickerMessageSerializer,
@@ -33,18 +34,22 @@ class NoticeViewSet(viewsets.ModelViewSet):
     serializer_class = NoticeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.action == 'published' or not self.request.user.is_authenticated:
+            queryset = queryset.filter(
+                Q(status='published'),
+                Q(expiry_date__isnull=True) | Q(expiry_date__gte=timezone.localdate()),
+            )
+        return queryset
+
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
     @action(detail=False, methods=['get'])
     def published(self, request):
         """Public endpoint for players to get published notices"""
-        today = timezone.now().date()
-        from django.db.models import Q
-        notices = Notice.objects.filter(
-            Q(status='published') & 
-            (Q(expiry_date__isnull=True) | Q(expiry_date__gte=today))
-        ).order_by('-published_date')
+        notices = self.get_queryset().order_by('-published_date')
         serializer = self.get_serializer(notices, many=True)
         return Response(serializer.data)
 

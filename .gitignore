@@ -24,4 +24,8 @@ staticfiles/
 
 # Node
 node_modules/
-package-lock.json
+
+# Local credentials
+.env
+.env.*
+!.env.example

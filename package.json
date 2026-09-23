@@ -1,7 +1,7 @@
 {
   "name": "notice-board-automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Nepali digital noticeboard and citizen charter display system",
   "main": "index.js",
   "scripts": {
     "build:css": "tailwindcss -i ./static/css/input.css -o ./static/css/output.css",
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   }
