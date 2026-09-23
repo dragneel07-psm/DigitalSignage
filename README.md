@@ -27,7 +27,7 @@ These are intended use cases, not claims of verified deployments or adoption.
 ## Local setup
 
 Requires Python 3.10 or later. SQLite is the configured database; Node.js is only
-needed when rebuilding Tailwind CSS. Python 3.10 and 3.13 are covered by CI.
+needed when rebuilding Tailwind CSS. CI is configured for Python 3.10 and 3.13.
 
 ```sh
 git clone https://github.com/dragneel07-psm/DigitalSignage.git

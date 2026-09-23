@@ -45,3 +45,13 @@ is published on the checked pages, and repository edits cannot guarantee selecti
 Collect genuine feedback and, where available, verified installations, downloads,
 issues, reviewed contributions, or releases. Do not create artificial stars,
 forks, issues, or usage claims to make the application appear stronger.
+
+## Validation status for this update
+
+Local Python 3.13 validation passed: 9 Django tests, system checks, and migration
+drift checks. The CSS build passed and npm reported zero known vulnerabilities
+after compatible lockfile updates. This is not a full security audit.
+
+GitHub Actions run 35879215802 could not start because GitHub reported that the
+account is locked due to a billing issue. The account owner must resolve that
+lock and rerun CI; Python 3.10 and hosted validation are not yet confirmed.
