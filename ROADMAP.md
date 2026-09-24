@@ -7,7 +7,7 @@ These are proposed improvements, not shipped features or delivery promises.
 - Improve accessibility and Nepali/English translation consistency.
 - Provide repeatable production deployment and backup/restore guidance.
 - Test playback under intermittent connectivity and document external dependencies.
-- Add an opt-in demo dataset containing no real personal information.
+- Expand the isolated demo with more screen sizes and media examples.
 - Collect voluntary, verifiable deployment feedback without identifying citizens.
 
 Use issues to agree requirements before implementation. Stars, downloads, and

@@ -71,6 +71,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "core.context_processors.branding",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -158,3 +159,6 @@ LOGOUT_REDIRECT_URL = "login"
 # SECURE_BROWSER_XSS_FILTER = True
 # CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "http://localhost:8000").split(",")
 
+
+# Override for schools, offices, or other institutions.
+DISPLAY_ORGANIZATION = os.environ.get("DISPLAY_ORGANIZATION", "अपिहिमाल गाउँपालिका")

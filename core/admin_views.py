@@ -185,6 +185,7 @@ class PlayerView(TemplateView):
         context = super().get_context_data(**kwargs)
         device_id = self.kwargs.get('device_id')
         context['device_id'] = device_id
+        context['display_organization'] = settings.DISPLAY_ORGANIZATION
         return context
 
 # Gallery Views

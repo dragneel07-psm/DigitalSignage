@@ -159,7 +159,7 @@
                         class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">अपिहिमाल गाउँपालिका</h1>
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">{{ display_organization }}</h1>
                     <p class="text-base md:text-lg text-white font-semibold opacity-90 mt-1">डिजिटल सूचना व्यवस्थापन प्रणाली</p>
                 </div>
             </div>
@@ -238,7 +238,7 @@
     <!-- Footer Ticker -->
     <div class="bg-yellow-400 py-2 px-4 overflow-hidden shrink-0">
         <div class="ticker whitespace-nowrap">
-            <span id="ticker-content" class="text-xl md:text-2xl font-extrabold text-black tracking-wide">🔔 स्वागत छ! अपिहिमाल गाउँपालिकाको डिजिटल सूचना प्रणालीमा • Welcome to Digital Notice Board • सूचनाहरू नियमित अपडेट हुन्छन् • For any queries contact rural municipality office</span>
+            <span id="ticker-content" class="text-xl md:text-2xl font-extrabold text-black tracking-wide">🔔 स्वागत छ! {{ display_organization }} • Welcome to Digital Notice Board • सूचनाहरू नियमित अपडेट हुन्छन्</span>
         </div>
     </div>
 
@@ -364,13 +364,16 @@
                         </div>
                         <p class="text-gray-700 leading-relaxed mb-3" style="font-size: clamp(0.95rem, 2.2vh, 1.25rem);">${notice.content}</p>
                         <div class="flex justify-between text-xs md:text-sm text-gray-500 font-medium">
-                            <span>📍 ${notice.office_name || 'अपिहिमाल गाउँपालिका'}</span>
+                            <span class="notice-organization"></span>
                             <span>📅 ${new Date(notice.published_date).toLocaleDateString('ne-NP')}</span>
                         </div>
                     </div>
                 `;
             });
             container.innerHTML = html;
+            container.querySelectorAll('.notice-organization').forEach(element => {
+                element.textContent = '📍 {{ display_organization|escapejs }}';
+            });
 
             // Start auto-scroll if content overflows
             startNoticeAutoScroll();
@@ -896,7 +899,7 @@
                     const tickerText = data.map(item => item.content).join(' • ');
                     document.getElementById('ticker-content').innerText = '🔔 ' + tickerText;
                 } else {
-                    document.getElementById('ticker-content').innerText = '🔔 स्वागत छ! अपिहिमाल गाउँपालिकाको डिजिटल सूचना प्रणालीमा';
+                    document.getElementById('ticker-content').innerText = '🔔 स्वागत छ! {{ display_organization|escapejs }}';
                 }
             } catch (error) {
                 console.error('Error fetching ticker:', error);

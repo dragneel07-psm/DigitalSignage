@@ -103,3 +103,40 @@ class DeploymentConfigurationTest(TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(log.read_text().splitlines(),
                              ['manage.py migrate', 'manage.py collectstatic --noinput', 'server-sentinel'])
+
+
+class DemoSeedTest(TestCase):
+    def test_refuses_normal_settings(self):
+        from django.core.management import call_command, CommandError
+        with self.assertRaises(CommandError):
+            call_command('seed_demo')
+        self.assertEqual(Notice.objects.count(), 0)
+
+    def test_seed_is_idempotent_and_does_not_create_users(self):
+        from io import StringIO
+        from tempfile import TemporaryDirectory
+        from django.core.management import call_command
+        from core.models import Device, Gallery, CitizenCharter, Representative, TickerMessage
+        with TemporaryDirectory() as directory:
+            with self.settings(DEMO_MODE=True, MEDIA_ROOT=directory):
+                call_command('seed_demo', stdout=StringIO())
+                notice = Notice.objects.first()
+                notice.content = 'My edited sample'
+                notice.save()
+                call_command('seed_demo', stdout=StringIO())
+                self.assertEqual(Notice.objects.count(), 3)
+                self.assertEqual(Device.objects.count(), 1)
+                self.assertEqual(Gallery.objects.count(), 1)
+                self.assertEqual(CitizenCharter.objects.count(), 1)
+                self.assertEqual(Representative.objects.count(), 1)
+                self.assertEqual(TickerMessage.objects.count(), 1)
+                self.assertEqual(User.objects.count(), 0)
+                notice.refresh_from_db()
+                self.assertEqual(notice.content, 'My edited sample')
+                self.assertTrue(Gallery.objects.first().cover_image.storage.exists(
+                    Gallery.objects.first().cover_image.name))
+
+    def test_display_heading_can_be_configured(self):
+        with self.settings(DISPLAY_ORGANIZATION='Fictional demo centre'):
+            response = self.client.get('/display/1/')
+            self.assertContains(response, 'Fictional demo centre')

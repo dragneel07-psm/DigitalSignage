@@ -7,6 +7,35 @@ A self-hosted, Django-based digital noticeboard with Nepali-language interfaces.
 Manage notices, citizen charters, images, videos, and scrolling messages from a
 central dashboard and show them in a browser on a TV or monitor.
 
+[New here? Read the community welcome](https://github.com/dragneel07-psm/DigitalSignage/discussions/7).
+
+## See it and try it
+
+[Try the isolated local demo](docs/try-demo.md) with fictional notices, a citizen
+charter, a sample image, and a scrolling message. No default login is created.
+
+- [Ask a question](https://github.com/dragneel07-psm/DigitalSignage/discussions/categories/q-a)
+- [Suggest an idea](https://github.com/dragneel07-psm/DigitalSignage/discussions/categories/ideas)
+- [Show your installation](https://github.com/dragneel07-psm/DigitalSignage/discussions/categories/show-and-tell)
+- [Find a first contribution](https://github.com/dragneel07-psm/DigitalSignage/contribute)
+
+### Actual demo screens
+
+Screens captured from the application with fictional sample content.
+
+![Fictional community noticeboard display](docs/images/display.png)
+
+<details>
+<summary>Dashboard and notice management</summary>
+
+![Management dashboard using demo data](docs/images/dashboard.png)
+![Published fictional notices](docs/images/notices.png)
+
+</details>
+
+[Watch the short demo walkthrough](docs/images/demo-walkthrough.webm).
+This is a recording of a local demo, not a hosted public service.
+
 ## Purpose and intended users
 
 Designed for municipalities, schools, offices, and community institutions that
@@ -73,6 +102,7 @@ not loaded automatically by Django.
 
 | Variable | Behavior |
 | --- | --- |
+| `DISPLAY_ORGANIZATION` | Display heading; defaults to the original municipality name. |
 | `DEBUG` | Defaults to `True` for local development; set `False` for production. |
 | `SECRET_KEY` | Required when debug is disabled. Generate a unique secret. |
 | `ALLOWED_HOSTS` | Comma-separated hostnames; defaults to localhost/loopback. |
